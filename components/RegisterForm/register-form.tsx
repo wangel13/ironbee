@@ -1,13 +1,14 @@
 "use client";
 
-import LoadingDots from "@/components/loading-dots";
+import LoadingIcon from "@/components/LoadingIcon";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useSWRMutation from "swr/mutation";
 import axios from "axios";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Email, Password } from "./fieldInputs";
+import { Input } from "@/components/HookForm/Input";
+import { Button } from "@/components/HookForm/Button";
 
 type Inputs = {
   email: string;
@@ -54,25 +55,51 @@ export default function RegisterForm() {
         onSubmit={methods.handleSubmit(onSubmit)}
         className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"
       >
-        <Email />
-        <Password />
+        <Input
+          id="email"
+          label="Email*"
+          type="email"
+          validation={{
+            required: "Обязательное поле",
+            pattern: {
+              value: /\S+@\S+.\S+/,
+              message: "Некорректный email",
+            },
+          }}
+        />
+        <Input
+          id="password"
+          type="password"
+          label="Пароль*"
+          validation={{ required: "Обязательное поле" }}
+        />
+        <Input id="firstName" label="Имя" />
+        <Input id="patronymic" label="Отчество" />
+        <Input id="secondName" label="Фамилия" />
+        <Input id="organizationName" label="Название организации" />
+        <Input id="organizationInn" label="ИНН" />
+        {/* <Input id="organizationIndustry" label="Отрасль"/> */}
+        {/* <Input id="country" label="Страна"/> */}
+        {/* <Input id="city" label="Город"/> */}
+        <Input id="position" label="Должность" />
 
-        <button
-          disabled={isMutating}
-          className={`${
-            isMutating
-              ? "cursor-not-allowed border-gray-200 bg-gray-100"
-              : "border-black bg-black text-white hover:bg-white hover:text-black"
-          } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
-        >
-          {isMutating ? <LoadingDots color="#808080" /> : <p>Sign Up</p>}
-        </button>
+        <div className="pt-4">
+          <Button className="w-full" variant="fill" disabled={isMutating}>
+            {isMutating ? (
+              <>
+                <LoadingIcon /> Загрузка
+              </>
+            ) : (
+              <p>Зарегистрироваться</p>
+            )}
+          </Button>
+        </div>
+
         <p className="text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-gray-800">
-            Sign in
-          </Link>{" "}
-          instead.
+          Уже есть аккаунт?{" "}
+          <Link href="/login" className="font-semibold text-gray-800 underline">
+            Войти
+          </Link>
         </p>
       </form>
     </FormProvider>

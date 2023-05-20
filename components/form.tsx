@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import LoadingDots from "@/components/loading-dots";
+import LoadingIcon from "@/components/LoadingIcon";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -95,7 +95,7 @@ export default function Form({ type }: { type: "login" | "register" }) {
         } flex h-10 w-full items-center justify-center rounded-md border text-sm transition-all focus:outline-none`}
       >
         {loading ? (
-          <LoadingDots color="#808080" />
+          <LoadingIcon />
         ) : (
           <p>{type === "login" ? "Sign In" : "Sign Up"}</p>
         )}
