@@ -42,7 +42,7 @@ export default function RegisterForm() {
         router.push("/login");
       },
       onError: (error) => {
-        toast.error(error);
+        toast.error(error.message);
       },
     }
   );
@@ -73,11 +73,23 @@ export default function RegisterForm() {
           label="Пароль*"
           validation={{ required: "Обязательное поле" }}
         />
-        <Input id="firstName" label="Имя" />
+        <Input
+          id="firstName"
+          label="Имя"
+          validation={{ required: "Обязательное поле" }}
+        />
         <Input id="patronymic" label="Отчество" />
-        <Input id="secondName" label="Фамилия" />
+        <Input
+          id="secondName"
+          label="Фамилия"
+          validation={{ required: "Обязательное поле" }}
+        />
         <Input id="organizationName" label="Название организации" />
-        <Input id="organizationInn" label="ИНН" />
+        <Input
+          id="organizationInn"
+          label="ИНН"
+          validation={{ required: "Обязательное поле" }}
+        />
         {/* <Input id="organizationIndustry" label="Отрасль"/> */}
         {/* <Input id="country" label="Страна"/> */}
         {/* <Input id="city" label="Город"/> */}
