@@ -1,17 +1,238 @@
 "use client";
 
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import useSWRMutation from "swr/mutation";
 import { Button } from "../HookForm/Button";
+import { Input } from "../HookForm/Input";
+import LoadingIcon from "../LoadingIcon";
+import { ReactSelect } from "../HookForm/ReactSelect";
+import map from "lodash/map";
+import reduce from "lodash/reduce";
+import get from "lodash/get";
+import keyBy from "lodash/keyBy";
+import { Accordion } from "../Accordion";
+import { Equipment } from "./components/Equipment/Equipment";
 
-type Inputs = {};
+type Inputs = {
+  equipment: any;
+};
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
 }
+
+class Calculator3000 {
+  industryKeys: any;
+  equipmentsKeys: any;
+  areaKeys: any;
+  legalFormsKeys: any;
+  data: any;
+  patentsKeys: any;
+
+  constructor(
+    data: any,
+    industryKeys: any,
+    equipmentsKeys: any,
+    areaKeys: any,
+    legalFormsKeys: any,
+    patentsKeys: any
+  ) {
+    this.data = data;
+    this.industryKeys = industryKeys;
+    this.equipmentsKeys = equipmentsKeys;
+    this.areaKeys = areaKeys;
+    this.legalFormsKeys = legalFormsKeys;
+    this.patentsKeys = patentsKeys;
+  }
+
+  calcEquipment() {
+    const equipment = this.data?.equipment;
+
+    const equipmentPrice = reduce(
+      equipment,
+      (acc, item) => {
+        const equipmentId = get(item, "type.value");
+        const equipmentCount = get(item, "count", 0);
+        const equipmentPrice = get(
+          this.equipmentsKeys,
+          [equipmentId, "avgCost"],
+          0
+        );
+        return acc + equipmentCount * equipmentPrice;
+      },
+      0
+    );
+    return equipmentPrice;
+  }
+
+  calcAreaBuildingCost() {
+    const areaBuildingCost = 100000;
+    const areaBuildingSize = get(this.data, "areaBuildingSize", 0);
+
+    const areaCost = areaBuildingCost * areaBuildingSize;
+    return areaCost;
+  }
+
+  calcRentalAreaCost() {
+    const area = get(this.areaKeys, this.data?.area?.value);
+    const areaRentalSize = get(this.data, "areaRentalSize", 0);
+
+    const areaCost = get(area, "avgCost", 0) * areaRentalSize;
+    return areaCost;
+  }
+
+  calcWorkersTaxes() {
+    // Считаем расходы на сотрудников
+    let workersSalary = this.calcWorkersSalary();
+    // Налоги
+    const workersTaxes = workersSalary * (0.22 + 0.051);
+    return workersTaxes;
+  }
+
+  calcWorkersSalary() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+    const workersCount = get(this.data, "workersCount", 0);
+
+    // Считаем расходы на сотрудников
+    let workersSalary = workersCount * industry?.avgSalary * 12;
+    return workersSalary;
+  }
+
+  calcStateDuty() {
+    const legalFormId = this.data?.legalForm?.value;
+    const legalForm = get(this.legalFormsKeys, legalFormId);
+    return get(legalForm, "stateDuty", 0);
+  }
+
+  calcBuhAvgCost() {
+    const usn = this.data?.usn;
+    const legalFormId = this.data?.legalForm?.value;
+    const legalForm = get(this.legalFormsKeys, legalFormId);
+
+    if (usn) {
+      return get(legalForm, "usnBuhAvgCost", 0) * 12;
+    }
+    if (!usn) {
+      return get(legalForm, "osnBuhAvgCost", 0) * 12;
+    }
+
+    return 0;
+  }
+
+  calcAvgTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgTaxes", 0);
+  }
+
+  calcAvgIncomeTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgIncomeTaxes", 0);
+  }
+
+  calcAvgPropertyTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgPropertyTaxes", 0);
+  }
+
+  calcAvgLandTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgLandTaxes", 0);
+  }
+
+  calcAvgTransportTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgTransportTaxes", 0);
+  }
+
+  calcAvgOtherTaxes() {
+    const industryId = this.data?.industry?.value;
+    const industry = get(this.industryKeys, industryId);
+
+    return get(industry, "avgOtherTaxes", 0);
+  }
+
+  calcPatents() {
+    const patents = this.data?.patents;
+
+    const patentsCost = reduce(
+      patents,
+      (acc, { value }) => {
+        const cost = get(this.patentsKeys, [value, "cost"], 0);
+        return acc + cost;
+      },
+      0
+    );
+
+    return patentsCost;
+  }
+
+  calcTotal() {
+    return (
+      this.calcWorkersSalary() +
+      this.calcWorkersTaxes() +
+      this.calcEquipment() +
+      this.calcRentalAreaCost() +
+      this.calcAreaBuildingCost() +
+      this.calcStateDuty() +
+      this.calcBuhAvgCost() +
+      this.calcAvgTaxes() +
+      this.calcAvgIncomeTaxes() +
+      this.calcAvgPropertyTaxes() +
+      this.calcAvgLandTaxes() +
+      this.calcAvgTransportTaxes() +
+      this.calcAvgOtherTaxes() +
+      this.calcPatents()
+    );
+  }
+}
+
+// function calculate(
+//   formData: any,
+//   industryKeys: any,
+//   equipmentsKeys: any,
+//   areaKeys: any
+// ) {
+//   const industryId = formData?.industry?.value;
+//   const equipment = formData?.equipment;
+//   const areaRentalSize = get(formData, "areaRentalSize", 0);
+//   const area = get(areaKeys, formData?.area?.value);
+//   const industry = get(industryKeys, industryId);
+
+//   // Считаем расходы на сотрудников
+//   const workersCount = get(formData, "workersCount", 0);
+//   let workersSalary = workersCount * industry?.avgSalary;
+//   // Налоги
+//   const workersTaxes = workersSalary * (0.22 + 0.051);
+
+//   const equipmentPrice = reduce(
+//     equipment,
+//     (acc, item) => {
+//       const equipmentId = get(item, "type.value");
+//       const equipmentCount = get(item, "count", 0);
+//       const equipmentPrice = get(equipmentsKeys, [equipmentId, "avgCost"], 0);
+//       return acc + equipmentCount * equipmentPrice;
+//     },
+//     0
+//   );
+
+//   const areaCost = get(area, "avgCost", 0) * areaRentalSize;
+
+//   return workersTaxes + workersSalary + equipmentPrice + areaCost;
+// }
 
 interface CalculatorProps {
   equipments: any;
@@ -39,88 +260,186 @@ const Calculator = ({
 
   const methods = useForm<Inputs>();
 
-  // const onSubmit: SubmitHandler<Inputs> = (data) => trigger(data);
-  const onSubmit: SubmitHandler<Inputs> = () =>
-    trigger({
-      authorId: 1,
-      minCost: 1,
-      maxCost: 1,
-      workers: 1,
-      areaBuildingSize: 1,
-      usn: true,
-      costAreaBuildingSize: 1,
-      areaRentalSize: 1,
-      legalFormId: 1,
-      areaId: 1,
-      industryId: 102,
-    });
+  const onSubmit: SubmitHandler<Inputs> = (data) => trigger(data);
+
+  const industriesOptions = useMemo(
+    () =>
+      map(industries, (industry) => ({
+        value: industry.id,
+        label: industry.name,
+      })),
+    [industries]
+  );
+
+  const legalFormsOptions = useMemo(
+    () =>
+      map(legalForms, (legalForm) => ({
+        value: legalForm.id,
+        label: legalForm.name,
+      })),
+    [legalForms]
+  );
+
+  const equipmentsOptions = useMemo(
+    () =>
+      map(equipments, (equipment) => ({
+        value: equipment.id,
+        label: equipment.name,
+      })),
+    [equipments]
+  );
+
+  const equipmentsKeys = useMemo(() => keyBy(equipments, "id"), [equipments]);
+  const industryKeys = useMemo(() => keyBy(industries, "id"), [industries]);
+  const areaKeys = useMemo(() => keyBy(areas, "id"), [areas]);
+  const legalFormsKeys = useMemo(() => keyBy(legalForms, "id"), [legalForms]);
+  const patentsKeys = useMemo(() => keyBy(patents, "id"), [patents]);
+
+  const areasOptions = useMemo(
+    () =>
+      map(areas, (area) => ({
+        value: area.id,
+        label: area.name,
+      })),
+    [areas]
+  );
+
+  const equipmentValue = methods.watch("equipment", []);
+  const allValues = methods.watch();
+
+  useEffect(() => {
+    console.log({ allValues });
+    const calc = new Calculator3000(
+      allValues,
+      industryKeys,
+      equipmentsKeys,
+      areaKeys,
+      legalFormsKeys,
+      patentsKeys
+    );
+    console.log(calc.calcEquipment());
+    // calculate(allValues, industryKeys, equipmentsKeys, areaKeys);
+  }, [allValues]);
+
+  // const onSubmit: SubmitHandler<Inputs> = () =>
+  //   trigger({
+  //     authorId: 1,
+  //     minCost: 1,
+  //     maxCost: 1,
+  //     workers: 1,
+  //     areaBuildingSize: 1,
+  //     usn: true,
+  //     costAreaBuildingSize: 1,
+  //     areaRentalSize: 1,
+  //     legalFormId: 1,
+  //     areaId: 1,
+  //     industryId: 102,
+  //   });
   return (
-    <Button onClick={onSubmit}>Test</Button>
-    // <FormProvider {...methods}>
-    //   <form
-    //     onSubmit={methods.handleSubmit(onSubmit)}
-    //     className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"
-    //   >
-    //     <Input
-    //       id="email"
-    //       label="Email*"
-    //       type="email"
-    //       validation={{
-    //         required: "Обязательное поле",
-    //         pattern: {
-    //           value: /\S+@\S+.\S+/,
-    //           message: "Некорректный email",
-    //         },
-    //       }}
-    //     />
-    //     <Input
-    //       id="password"
-    //       type="password"
-    //       label="Пароль*"
-    //       validation={{ required: "Обязательное поле" }}
-    //     />
-    //     <Input
-    //       id="firstName"
-    //       label="Имя"
-    //       validation={{ required: "Обязательное поле" }}
-    //     />
-    //     <Input id="patronymic" label="Отчество" />
-    //     <Input
-    //       id="secondName"
-    //       label="Фамилия"
-    //       validation={{ required: "Обязательное поле" }}
-    //     />
-    //     <Input id="organizationName" label="Название организации" />
-    //     <Input
-    //       id="organizationInn"
-    //       label="ИНН"
-    //       validation={{ required: "Обязательное поле" }}
-    //     />
-    //     {/* <Input id="organizationIndustry" label="Отрасль"/> */}
-    //     {/* <Input id="country" label="Страна"/> */}
-    //     {/* <Input id="city" label="Город"/> */}
-    //     <Input id="position" label="Должность" />
+    <FormProvider {...methods}>
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+          <ReactSelect
+            id="industry"
+            options={industriesOptions}
+            label="Отрасль производства"
+            helperText={"в какой сфере будет ваше предприятие"}
+            rules={{
+              required: "Обязательное поле",
+            }}
+          />
+          <ReactSelect
+            id="legalForm"
+            options={legalFormsOptions}
+            label="Форма организации предприятия"
+            helperText={"от неё зависят некоторые параметры"}
+            rules={{
+              required: "Обязательное поле",
+            }}
+          />
+        </div>
 
-    //     <div className="pt-4">
-    //       <Button className="w-full" variant="fill" disabled={isMutating}>
-    //         {isMutating ? (
-    //           <>
-    //             <LoadingIcon /> Загрузка
-    //           </>
-    //         ) : (
-    //           <p>Зарегистрироваться</p>
-    //         )}
-    //       </Button>
-    //     </div>
+        <Accordion
+          items={[
+            {
+              header: "Оборудование",
+              count: equipmentValue.length,
+              content: (
+                <div className="">
+                  <Equipment
+                    equipmentOptions={equipmentsOptions}
+                    equipmentsKeys={equipmentsKeys}
+                  />
+                </div>
+              ),
+            },
+            {
+              header: "Затраты на покупку земли",
+              content: (
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                  <ReactSelect
+                    id="area"
+                    options={areasOptions}
+                    label="Район"
+                    helperText={"в этом районе будет производство"}
+                    rules={{
+                      required: "Обязательное поле",
+                    }}
+                  />
+                  <Input
+                    id="areaRentalSize"
+                    label="Сколько площади необходимо, м2"
+                    type="number"
+                    validation={{
+                      required: "Обязательное поле",
+                    }}
+                  />
+                </div>
+              ),
+            },
+            {
+              header: "Затраты на капитальное строительство",
+              content: <div className=""></div>,
+            },
+            {
+              header: "Затраты на персонал",
+              content: <div className=""></div>,
+            },
+            {
+              header: "Операционная работа",
+              content: <div className=""></div>,
+            },
+            {
+              header: "Патенты",
+              content: <div className=""></div>,
+            },
+            {
+              header: "Услуги",
+              content: <div className=""></div>,
+            },
+            {
+              header: "Запуск производства",
+              content: <div className=""></div>,
+            },
+          ]}
+        />
 
-    //     <p className="text-center text-sm text-gray-600">
-    //       Уже есть аккаунт?{" "}
-    //       <Link href="/login" className="font-semibold text-gray-800 underline">
-    //         Войти
-    //       </Link>
-    //     </p>
-    //   </form>
-    // </FormProvider>
+        <div className="pt-4">
+          <Button className="w-full" variant="fill" disabled={isMutating}>
+            {isMutating ? (
+              <>
+                <LoadingIcon /> Загрузка
+              </>
+            ) : (
+              <p>Расчет</p>
+            )}
+          </Button>
+        </div>
+      </form>
+    </FormProvider>
   );
 };
 
