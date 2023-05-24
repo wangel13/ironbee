@@ -5,15 +5,15 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import AuthStatus from "@/components/auth-status";
 import { Suspense } from "react";
+import { NextAuthProvider } from "./providers";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 const title = "Инвестиции в промышленности";
-const description =
-  "";
+const description = "";
 
 export const metadata: Metadata = {
   title,
@@ -41,7 +41,7 @@ export default async function RootLayout({
           {/* @ts-expect-error Async Server Component */}
           <AuthStatus />
         </Suspense>
-        {children}
+        <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
   );

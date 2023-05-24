@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
             email,
           },
         });
+        console.log({ user });
         // if user doesn't exist or password doesn't match
         if (!user || !(await compare(password, user.password))) {
           throw new Error("Invalid username or password");
@@ -29,6 +30,30 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session }) {
+      if (!session.user?.email) return session;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: session.user?.email,
+        },
+        select: {
+          id: true,
+          firstName: true,
+          secondName: true,
+          email: true,
+          role: true,
+          patronymic: true,
+          organizationName: true,
+          organizationInn: true,
+          position: true,
+        },
+      });
+      console.log({ session, user });
+      return { ...session, user: { ...user } };
+    },
+  },
   session: { strategy: "jwt" },
 };
 

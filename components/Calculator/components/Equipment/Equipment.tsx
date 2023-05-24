@@ -5,9 +5,10 @@ import { EquipmentItem } from "./EquipmentItem";
 interface Props {
   equipmentOptions: any;
   equipmentsKeys: any;
+  calculator: any;
 }
 
-export const Equipment = ({ equipmentOptions, equipmentsKeys }: Props) => {
+export const Equipment = ({ equipmentOptions, equipmentsKeys, calculator }: Props) => {
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       name: "equipment",
@@ -18,6 +19,7 @@ export const Equipment = ({ equipmentOptions, equipmentsKeys }: Props) => {
     // e.preventDefault()
     append({
       count: 0,
+      type: equipmentOptions[0]
     });
   };
 

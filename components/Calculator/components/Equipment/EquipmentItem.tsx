@@ -2,6 +2,7 @@ import { ReactSelect } from "@/components/HookForm/ReactSelect";
 import { Input } from "@/components/HookForm/Input";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/HookForm/Button";
+import { formatCurrency } from "@/lib/formatCurrency";
 
 interface Props {
   index: number;
@@ -31,24 +32,19 @@ export const EquipmentItem = ({
           required: "Обязательное поле",
         }}
       />
-      <div className="flex ">
+      <div className="flex justify-items-center gap-4">
         <Input
           id={`equipment.${index}.count`}
           label="Количество"
           type="number"
-          helperText={`${
+          helperText={formatCurrency(
             equipmentsKeys[equipmentOption?.value]?.avgCost * count
-          }`}
+          )}
           validation={{
             required: "Обязательное поле",
           }}
         />
-        <Button
-          className="mt-8 ml-4"
-          onClick={() => remove(index)}
-          type="button"
-          variant="link"
-        >
+        <Button onClick={() => remove(index)} type="button" variant="link">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

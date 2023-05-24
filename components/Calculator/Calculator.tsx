@@ -1,8 +1,9 @@
 "use client";
 
 import axios from "axios";
+import { useSession } from "next-auth/react"
 import React, { useEffect, useMemo } from "react";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import useSWRMutation from "swr/mutation";
 import { Button } from "../HookForm/Button";
@@ -10,195 +11,16 @@ import { Input } from "../HookForm/Input";
 import LoadingIcon from "../LoadingIcon";
 import { ReactSelect } from "../HookForm/ReactSelect";
 import map from "lodash/map";
-import reduce from "lodash/reduce";
-import get from "lodash/get";
 import keyBy from "lodash/keyBy";
 import { Accordion } from "../Accordion";
 import { Equipment } from "./components/Equipment/Equipment";
-
-type Inputs = {
-  equipment: any;
-};
+import { formatCurrency } from "@/lib/formatCurrency";
+import { Calculator3000 } from "./calculator";
+import toNumber from "lodash/toNumber";
+import { useRouter } from "next/navigation";
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
-}
-
-class Calculator3000 {
-  industryKeys: any;
-  equipmentsKeys: any;
-  areaKeys: any;
-  legalFormsKeys: any;
-  data: any;
-  patentsKeys: any;
-
-  constructor(
-    data: any,
-    industryKeys: any,
-    equipmentsKeys: any,
-    areaKeys: any,
-    legalFormsKeys: any,
-    patentsKeys: any
-  ) {
-    this.data = data;
-    this.industryKeys = industryKeys;
-    this.equipmentsKeys = equipmentsKeys;
-    this.areaKeys = areaKeys;
-    this.legalFormsKeys = legalFormsKeys;
-    this.patentsKeys = patentsKeys;
-  }
-
-  calcEquipment() {
-    const equipment = this.data?.equipment;
-
-    const equipmentPrice = reduce(
-      equipment,
-      (acc, item) => {
-        const equipmentId = get(item, "type.value");
-        const equipmentCount = get(item, "count", 0);
-        const equipmentPrice = get(
-          this.equipmentsKeys,
-          [equipmentId, "avgCost"],
-          0
-        );
-        return acc + equipmentCount * equipmentPrice;
-      },
-      0
-    );
-    return equipmentPrice;
-  }
-
-  calcAreaBuildingCost() {
-    const areaBuildingCost = 100000;
-    const areaBuildingSize = get(this.data, "areaBuildingSize", 0);
-
-    const areaCost = areaBuildingCost * areaBuildingSize;
-    return areaCost;
-  }
-
-  calcRentalAreaCost() {
-    const area = get(this.areaKeys, this.data?.area?.value);
-    const areaRentalSize = get(this.data, "areaRentalSize", 0);
-
-    const areaCost = get(area, "avgCost", 0) * areaRentalSize;
-    return areaCost;
-  }
-
-  // ИМЕЕТ СМЫСЛ РАЗДЕЛИТЬ - СМ. БРОШЮУРУ
-  calcWorkersTaxes() {
-    // Считаем расходы на сотрудников
-    let workersSalary = this.calcWorkersSalary();
-    // Налоги
-    const workersTaxes = workersSalary * (0.22 + 0.051);
-    return workersTaxes;
-  }
-
-  calcWorkersSalary() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-    const workersCount = get(this.data, "workersCount", 0);
-
-    // Считаем расходы на сотрудников
-    let workersSalary = workersCount * industry?.avgSalary * 12;
-    return workersSalary;
-  }
-
-  calcStateDuty() {
-    const legalFormId = this.data?.legalForm?.value;
-    const legalForm = get(this.legalFormsKeys, legalFormId);
-    return get(legalForm, "stateDuty", 0);
-  }
-
-  calcBuhAvgCost() {
-    const usn = this.data?.usn;
-    const legalFormId = this.data?.legalForm?.value;
-    const legalForm = get(this.legalFormsKeys, legalFormId);
-
-    if (usn) {
-      return get(legalForm, "usnBuhAvgCost", 0) * 12;
-    }
-    if (!usn) {
-      return get(legalForm, "osnBuhAvgCost", 0) * 12;
-    }
-
-    return 0;
-  }
-
-  calcAvgTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgTaxes", 0);
-  }
-
-  calcAvgIncomeTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgIncomeTaxes", 0);
-  }
-
-  calcAvgPropertyTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgPropertyTaxes", 0);
-  }
-
-  calcAvgLandTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgLandTaxes", 0);
-  }
-
-  calcAvgTransportTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgTransportTaxes", 0);
-  }
-
-  calcAvgOtherTaxes() {
-    const industryId = this.data?.industry?.value;
-    const industry = get(this.industryKeys, industryId);
-
-    return get(industry, "avgOtherTaxes", 0);
-  }
-
-  calcPatents() {
-    const patents = this.data?.patents;
-
-    const patentsCost = reduce(
-      patents,
-      (acc, { value }) => {
-        const cost = get(this.patentsKeys, [value, "cost"], 0);
-        return acc + cost;
-      },
-      0
-    );
-
-    return patentsCost;
-  }
-
-  calcTotal() {
-    return (
-      this.calcWorkersSalary() +
-      this.calcWorkersTaxes() +
-      this.calcEquipment() +
-      this.calcRentalAreaCost() +
-      this.calcAreaBuildingCost() +
-      this.calcStateDuty() +
-      this.calcBuhAvgCost() +
-      this.calcAvgTaxes() +
-      this.calcAvgIncomeTaxes() +
-      this.calcAvgPropertyTaxes() +
-      this.calcAvgLandTaxes() +
-      this.calcAvgTransportTaxes() +
-      this.calcAvgOtherTaxes() +
-      this.calcPatents()
-    );
-  }
 }
 
 // function calculate(
@@ -250,18 +72,18 @@ const Calculator = ({
   patents,
   legalForms,
 }: CalculatorProps) => {
+  const { data: session, status } = useSession()
+  const router = useRouter();
+
   const { trigger, isMutating } = useSWRMutation("/api/project", sendRequest, {
     onSuccess: () => {
-      toast.success("Проект успешно создан");
+      toast.success("Проект успешно сохранен");
+      router.push("/projects");
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
-
-  const methods = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => trigger(data);
 
   const industriesOptions = useMemo(
     () =>
@@ -299,14 +121,40 @@ const Calculator = ({
     [areas]
   );
 
+  const patentsOptions = useMemo(
+    () =>
+      map(patents, (patent) => ({
+        value: patent.id,
+        label: patent.name,
+      })),
+    [patents]
+  );
+
   const equipmentsKeys = useMemo(() => keyBy(equipments, "id"), [equipments]);
   const industryKeys = useMemo(() => keyBy(industries, "id"), [industries]);
   const areaKeys = useMemo(() => keyBy(areas, "id"), [areas]);
   const legalFormsKeys = useMemo(() => keyBy(legalForms, "id"), [legalForms]);
   const patentsKeys = useMemo(() => keyBy(patents, "id"), [patents]);
 
-  const equipmentValue = methods.watch("equipment", []);
+  const methods = useForm({
+    mode: "onChange",
+    defaultValues: {
+      industry: industriesOptions[0],
+      legalForm: legalFormsOptions[0],
+      area: areasOptions[0],
+      areaSize: 0,
+      patents: [],
+      equipment: [],
+      areaBuildingSize: 0,
+      workersCount: 0,
+    },
+  });
+
   const allValues = methods.watch();
+
+  useEffect(() => {
+    methods.resetField("patents");
+  }, [allValues.legalForm, methods]);
 
   const calculator = new Calculator3000(
     allValues,
@@ -316,6 +164,23 @@ const Calculator = ({
     legalFormsKeys,
     patentsKeys
   );
+
+  const onSubmit = async (data: any) => {
+    trigger({
+      authorId: session?.user?.id,
+      minCost: calculator.calcTotal(),
+      maxCost: calculator.calcTotal(),
+      workers: toNumber(data?.workersCount),
+      areaBuildingSize: toNumber(data?.areaBuildingSize),
+      // TODO:
+      usn: true,
+      costAreaBuildingSize: 100000,
+      areaRentalSize: toNumber(data?.areaSize),
+      legalFormId: data?.legalForm?.value,
+      areaId: data?.area?.value,
+      industryId: data?.industry?.value,
+    });
+  };
 
   // const onSubmit: SubmitHandler<Inputs> = () =>
   //   trigger({
@@ -337,7 +202,7 @@ const Calculator = ({
         onSubmit={methods.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
           <ReactSelect
             id="industry"
             options={industriesOptions}
@@ -356,16 +221,26 @@ const Calculator = ({
               required: "Обязательное поле",
             }}
           />
+          <ReactSelect
+            id="area"
+            options={areasOptions}
+            label="Район"
+            helperText={"в этом районе будет производство"}
+            rules={{
+              required: "Обязательное поле",
+            }}
+          />
         </div>
 
         <Accordion
           items={[
             {
               header: "Оборудование",
-              count: equipmentValue.length,
+              count: formatCurrency(calculator.calcEquipment()),
               content: (
                 <div className="">
                   <Equipment
+                    calculator={calculator}
                     equipmentOptions={equipmentsOptions}
                     equipmentsKeys={equipmentsKeys}
                   />
@@ -375,30 +250,36 @@ const Calculator = ({
             },
             {
               header: "Затраты на покупку земли",
+              count: formatCurrency(
+                calculator.calcAreaTaxes() + calculator.calcAreaCost()
+              ),
+
               content: (
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-                  <ReactSelect
-                    id="area"
-                    options={areasOptions}
-                    label="Район"
-                    helperText={"в этом районе будет производство"}
-                    rules={{
-                      required: "Обязательное поле",
-                    }}
-                  />
                   <Input
-                    id="areaRentalSize"
+                    id="areaSize"
                     label="Сколько площади необходимо, м2"
                     type="number"
                     validation={{
+                      max: {
+                        value: 10000000,
+                        message: "Максимум 1 000 000, м2",
+                      },
                       required: "Обязательное поле",
                     }}
+                    helperText={`в том числе налоги ${formatCurrency(
+                      calculator.calcAreaTaxes()
+                    )}`}
                   />
                 </div>
               ),
             },
             {
               header: "Затраты на капитальное строительство",
+              count: formatCurrency(
+                calculator.calcAreaBuildingCost() +
+                  calculator.calcAreaBuildingTaxes()
+              ),
               content: (
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
                   <Input
@@ -406,14 +287,24 @@ const Calculator = ({
                     label="Объем капитального строительства, м2"
                     type="number"
                     validation={{
+                      max: {
+                        value: 10000000,
+                        message: "Максимум 1 000 000, м2",
+                      },
                       required: "Обязательное поле",
                     }}
+                    helperText={`в том числе налоги ${formatCurrency(
+                      calculator.calcAreaBuildingTaxes()
+                    )}`}
                   />
                 </div>
               ),
             },
             {
               header: "Затраты на персонал",
+              count: formatCurrency(
+                calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
+              ),
               content: (
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
                   <Input
@@ -421,24 +312,94 @@ const Calculator = ({
                     label="Кол-во сотрудников"
                     type="number"
                     validation={{
+                      max: {
+                        value: 10000,
+                        message: "Максимум 10 000 сотрудников",
+                      },
                       required: "Обязательное поле",
                     }}
-                    helperText={String(calculator.calcWorkersSalary())}
+                    helperText={`в том числе налоги ${formatCurrency(
+                      calculator.calcWorkersTaxes()
+                    )}`}
                   />
                 </div>
               ),
             },
-            {
-              header: "Патенты",
-              content: <div className=""></div>,
-            },
+            ...(allValues.legalForm?.label === "ИП"
+              ? [
+                  {
+                    header: "Патенты",
+                    count: formatCurrency(calculator.calcPatents()),
+                    content: (
+                      <div className="">
+                        <ReactSelect
+                          id="patents"
+                          isMulti
+                          options={patentsOptions}
+                          label="Необходимые патенты для вашего предприятия"
+                          helperText={""}
+                          // rules={{
+                          //   required: "Обязательное поле",
+                          // }}
+                        />
+                      </div>
+                    ),
+                  },
+                ]
+              : []),
             {
               header: "Услуги",
-              content: <div className=""></div>,
+              count: formatCurrency(calculator.calcBuhAvgCost()),
+              content: (
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-3 justify-between">
+                    <div>Услуги бухгалтера</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>{formatCurrency(calculator.calcBuhAvgCost())}</div>
+                  </div>
+                </div>
+              ),
             },
             {
               header: "Налоги",
-              content: <div className=""></div>,
+              count: formatCurrency(
+                calculator.calcStateDuty() +
+                  calculator.calcAvgTransportTaxes() +
+                  calculator.calcAvgIncomeTaxes() +
+                  calculator.calcAvgTaxes() +
+                  calculator.calcAvgOtherTaxes()
+              ),
+              content: (
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-3 justify-between">
+                    <div>Госпошлина</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>{formatCurrency(calculator.calcStateDuty())}</div>
+                  </div>
+                  <div className="flex gap-3 justify-between">
+                    <div>Средние транспортные налоги по отрасли</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>
+                      {formatCurrency(calculator.calcAvgTransportTaxes())}
+                    </div>
+                  </div>
+                  <div className="flex gap-3 justify-between">
+                    <div>Средние подоходные налоги по отрасли</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>{formatCurrency(calculator.calcAvgIncomeTaxes())}</div>
+                  </div>
+                  <div className="flex gap-3 justify-between">
+                    <div>Средние налоги по отрасли</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>{formatCurrency(calculator.calcAvgTaxes())}</div>
+                  </div>
+                  <div className="flex gap-3 justify-between">
+                    <div>Средние другие налоги по отрасли</div>
+                    <div className="border-dotted border-b-2 flex-1"></div>
+                    <div>{formatCurrency(calculator.calcAvgOtherTaxes())}</div>
+                  </div>
+                </div>
+              ),
             },
             // {
             //   header: "Запуск производства",
@@ -450,6 +411,12 @@ const Calculator = ({
             // },
           ]}
         />
+
+        <div className="grid justify-items-end">
+          <div className="bg-lime-500 text-white rounded-lg text-right font-semibold text-2xl p-4">
+            {formatCurrency(calculator.calcTotal())}
+          </div>
+        </div>
 
         <div className="pt-4">
           <Button className="w-full" variant="fill" disabled={isMutating}>
