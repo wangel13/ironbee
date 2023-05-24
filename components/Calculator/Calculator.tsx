@@ -84,6 +84,7 @@ class Calculator3000 {
     return areaCost;
   }
 
+  // ИМЕЕТ СМЫСЛ РАЗДЕЛИТЬ - СМ. БРОШЮУРУ
   calcWorkersTaxes() {
     // Считаем расходы на сотрудников
     let workersSalary = this.calcWorkersSalary();
@@ -289,12 +290,6 @@ const Calculator = ({
     [equipments]
   );
 
-  const equipmentsKeys = useMemo(() => keyBy(equipments, "id"), [equipments]);
-  const industryKeys = useMemo(() => keyBy(industries, "id"), [industries]);
-  const areaKeys = useMemo(() => keyBy(areas, "id"), [areas]);
-  const legalFormsKeys = useMemo(() => keyBy(legalForms, "id"), [legalForms]);
-  const patentsKeys = useMemo(() => keyBy(patents, "id"), [patents]);
-
   const areasOptions = useMemo(
     () =>
       map(areas, (area) => ({
@@ -304,22 +299,23 @@ const Calculator = ({
     [areas]
   );
 
+  const equipmentsKeys = useMemo(() => keyBy(equipments, "id"), [equipments]);
+  const industryKeys = useMemo(() => keyBy(industries, "id"), [industries]);
+  const areaKeys = useMemo(() => keyBy(areas, "id"), [areas]);
+  const legalFormsKeys = useMemo(() => keyBy(legalForms, "id"), [legalForms]);
+  const patentsKeys = useMemo(() => keyBy(patents, "id"), [patents]);
+
   const equipmentValue = methods.watch("equipment", []);
   const allValues = methods.watch();
 
-  useEffect(() => {
-    console.log({ allValues });
-    const calc = new Calculator3000(
-      allValues,
-      industryKeys,
-      equipmentsKeys,
-      areaKeys,
-      legalFormsKeys,
-      patentsKeys
-    );
-    console.log(calc.calcEquipment());
-    // calculate(allValues, industryKeys, equipmentsKeys, areaKeys);
-  }, [allValues]);
+  const calculator = new Calculator3000(
+    allValues,
+    industryKeys,
+    equipmentsKeys,
+    areaKeys,
+    legalFormsKeys,
+    patentsKeys
+  );
 
   // const onSubmit: SubmitHandler<Inputs> = () =>
   //   trigger({
@@ -375,6 +371,7 @@ const Calculator = ({
                   />
                 </div>
               ),
+              // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
             },
             {
               header: "Затраты на покупку земли",
@@ -402,15 +399,34 @@ const Calculator = ({
             },
             {
               header: "Затраты на капитальное строительство",
-              content: <div className=""></div>,
+              content: (
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                  <Input
+                    id="areaBuildingSize"
+                    label="Объем капитального строительства, м2"
+                    type="number"
+                    validation={{
+                      required: "Обязательное поле",
+                    }}
+                  />
+                </div>
+              ),
             },
             {
               header: "Затраты на персонал",
-              content: <div className=""></div>,
-            },
-            {
-              header: "Операционная работа",
-              content: <div className=""></div>,
+              content: (
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                  <Input
+                    id="workersCount"
+                    label="Кол-во сотрудников"
+                    type="number"
+                    validation={{
+                      required: "Обязательное поле",
+                    }}
+                    helperText={String(calculator.calcWorkersSalary())}
+                  />
+                </div>
+              ),
             },
             {
               header: "Патенты",
@@ -421,9 +437,17 @@ const Calculator = ({
               content: <div className=""></div>,
             },
             {
-              header: "Запуск производства",
+              header: "Налоги",
               content: <div className=""></div>,
             },
+            // {
+            //   header: "Запуск производства",
+            //   content: <div className=""></div>,
+            // },
+            // {
+            //   header: "Операционная работа",
+            //   content: <div className=""></div>,
+            // },
           ]}
         />
 

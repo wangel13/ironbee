@@ -15,8 +15,12 @@ type Props = {
 export const Accordion = ({ items }: Props) => {
   return (
     <AccordionPrimitive.Root type="multiple" className={cx("space-y-4")}>
-      {items.map(({ header, count, content }, i) => (
-        <AccordionPrimitive.Item key={`header-${i}`} value={`item-${i + 1}`}>
+      {items.map(({ header, count, content, ...rest }, i) => (
+        <AccordionPrimitive.Item
+          key={`header-${i}`}
+          value={`item-${i + 1}`}
+          {...rest}
+        >
           <AccordionPrimitive.Header className="w-full">
             <AccordionPrimitive.Trigger
               className={cx(
