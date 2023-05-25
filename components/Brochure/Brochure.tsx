@@ -14,7 +14,7 @@ Font.register({
   family: "Roboto",
   fonts: [
     {
-      src: "./fonts/Roboto-Medium.ttf",
+      src: "./fonts/Roboto-Light.ttf",
     },
     {
       src: "./fonts/Roboto-Bold.ttf",
