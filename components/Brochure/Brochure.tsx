@@ -11,17 +11,17 @@ import {
 import Html from "react-pdf-html";
 
 Font.register({
-  family: "Ubuntu",
+  family: "Roboto",
   fonts: [
     {
-      src: "https://fonts.gstatic.com/s/questrial/v13/QdVUSTchPBm7nuUeVf7EuStkm20oJA.ttf",
+      src: "./fonts/Roboto-Medium.ttf",
     },
     {
-      src: "https://fonts.gstatic.com/s/questrial/v13/QdVUSTchPBm7nuUeVf7EuStkm20oJA.ttf",
+      src: "./fonts/Roboto-Bold.ttf",
       fontWeight: "bold",
     },
     {
-      src: "https://fonts.gstatic.com/s/questrial/v13/QdVUSTchPBm7nuUeVf7EuStkm20oJA.ttf",
+      src: "./fonts/Roboto-Medium.ttf",
       fontWeight: "normal",
       fontStyle: "italic",
     },
@@ -29,29 +29,16 @@ Font.register({
 });
 
 const styles = StyleSheet.create({
-  pageBackground: {
-    position: "absolute",
-    minWidth: "100%",
-    minHeight: "100%",
-    display: "block",
-    height: "100%",
-    width: "100%",
-  },
   page: {
-    width: "100%",
-    height: "100%",
-    border: "none",
-    margin: 0,
-    padding: 0,
-    fontFamily: "Ubuntu",
+    fontFamily: "Roboto",
   },
 });
 
 const MyDoc = ({ html }: { html: any }) => (
   <Document style={styles.page}>
-    <Page size="A4" style={styles.page}>
-      <Html style={styles.page}>{html}</Html>
-      <Html style={styles.page}>{html}</Html>
+    <Page size="A4">
+      <Html>{html}</Html>
+      ук
     </Page>
   </Document>
 );
@@ -69,7 +56,7 @@ const Brochure = ({ html }: { html: any }) => {
         <div>
           <PDFDownloadLink
             document={<MyDoc html={html} />}
-            fileName="somename.pdf"
+            fileName="Отчет о затратах.pdf"
           >
             {({ blob, url, loading, error }) =>
               loading ? "Loading document..." : "Download now!"
