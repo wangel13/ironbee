@@ -10,6 +10,9 @@ import {
 } from "@react-pdf/renderer";
 import Html from "react-pdf-html";
 
+import { Button } from "../HookForm/Button";
+import LoadingIcon from "../LoadingIcon";
+
 Font.register({
   family: "Roboto",
   fonts: [
@@ -52,16 +55,22 @@ const BrochureClientLink = ({ html }: { html: any }) => {
   return (
     <>
       {isClient ? (
-        <div>
-          <PDFDownloadLink
-            document={<MyDoc html={html} />}
-            fileName="Отчет о затратах.pdf"
-          >
-            {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : "Download now!"
-            }
-          </PDFDownloadLink>
-        </div>
+        <PDFDownloadLink
+          document={<MyDoc html={html} />}
+          fileName="Отчет о затратах.pdf"
+        >
+          {({ blob, url, loading, error }) => (
+            <Button variant="fill" disabled={loading}>
+              {loading ? (
+                <>
+                  <LoadingIcon /> Загрузка
+                </>
+              ) : (
+                <p>Скачать брошюру</p>
+              )}
+            </Button>
+          )}
+        </PDFDownloadLink>
       ) : (
         <></>
       )}
