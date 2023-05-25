@@ -38,7 +38,7 @@ export default function RegisterForm() {
     sendRequest,
     {
       onSuccess: () => {
-        toast.success("Account created! Redirecting to login...");
+        toast.success("Вы зарегестрировались! Перенаправляем на вход...");
         router.push("/login");
       },
       onError: (error) => {

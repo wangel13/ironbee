@@ -10,7 +10,7 @@ export default async function CalculatorPage() {
 
   return (
     <div className="bg-white shadow rounded p-4 my-4">
-      Калькулятор инвест-проекта
+      <h1 className="h1 mb-8">Калькулятор инвест-проекта</h1>
       <Calculator
         equipments={equipments}
         industries={industries}

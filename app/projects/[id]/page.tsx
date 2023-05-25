@@ -1,3 +1,4 @@
 export default function Projects() {
-  return <></>
+  // ИМЕЕТ СМЫСЛ ВЗЯТЬ ВНЕШНИЙ ВИД ФОРМЫ ИЗ КАЛЬКУЛЯТОРА
+  return <></>;
 }
