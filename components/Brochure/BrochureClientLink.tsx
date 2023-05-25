@@ -38,12 +38,11 @@ const MyDoc = ({ html }: { html: any }) => (
   <Document style={styles.page}>
     <Page size="A4">
       <Html>{html}</Html>
-      ук
     </Page>
   </Document>
 );
 
-const Brochure = ({ html }: { html: any }) => {
+const BrochureClientLink = ({ html }: { html: any }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -70,4 +69,4 @@ const Brochure = ({ html }: { html: any }) => {
   );
 };
 
-export default Brochure;
+export default BrochureClientLink;
