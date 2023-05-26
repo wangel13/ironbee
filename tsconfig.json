@@ -10,6 +10,7 @@
       "@/pages/*": ["pages/*"],
       "@/app/*": ["app/*"],
       "@/lib/*": ["lib/*"],
+      "@/Layouts/*": ["Layouts/*"],
       "@/styles/*": ["styles/*"]
     },
     "strict": true,

@@ -14,4 +14,7 @@
   .h1 {
     @apply xl:text-4xl lg:text-3xl text-2xl font-bold;
   }
+  .main-header {
+    min-height: 88px;
+  }
 }

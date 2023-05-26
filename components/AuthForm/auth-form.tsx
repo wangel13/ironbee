@@ -22,7 +22,7 @@ export default function AuthForm() {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);
     signIn("credentials", {
-      callbackUrl: "/protected",
+      callbackUrl: "/projects/my",
       email: data.email,
       password: data.password,
       // @ts-ignore
