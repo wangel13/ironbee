@@ -18,7 +18,7 @@ import { formatCurrency } from "@/lib/formatCurrency";
 import { Calculator3000 } from "./calculator";
 import toNumber from "lodash/toNumber";
 import { useRouter } from "next/navigation";
-import AreaMap from "./components/AreaMap/AreaMap";
+import DynamicMap from "./components/AreaMap/DynamicMap";
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
@@ -226,7 +226,10 @@ const Calculator = ({
           </div>
           <div>
             <div>Администаривный округ (выбереите на карте)</div>
-            <AreaMap className="h-96 w-full my-2" areasOptions={areasOptions} />
+            <DynamicMap
+              className="h-96 w-full my-2"
+              areasOptions={areasOptions}
+            />
             <ReactSelect
               id="area"
               options={areasOptions}
