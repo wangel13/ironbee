@@ -17,7 +17,7 @@ export const WorkersList = () => {
       </SectionTitle>
 
       <BigSection
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/gears.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -45,7 +45,7 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ НА СОДЕРЖАНИЕ ПЕРСОНАЛА ОРГАНИЗАЦИИ"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/gears.png"
       >
         от…до…, в млн. руб.
       </Section>
@@ -55,7 +55,7 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="ПЛАНИРУЕМАЯ ЧИСЛЕННОСТЬ ПЕРСОНАЛА"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/gears.png"
       >
         человек
       </Section>
@@ -65,7 +65,7 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (ПЕНСИОННОЕ СТРАХОВАНИЕ)"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/gears.png"
       >
         «от…до…, в млн.руб.»
       </Section>
@@ -75,7 +75,7 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (МЕДИЦИНСКОЕ СТРАХОВАНИЕ)"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/gears.png"
       >
         «от…до…, в млн.руб.»
       </Section>

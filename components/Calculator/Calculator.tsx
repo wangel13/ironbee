@@ -20,6 +20,7 @@ import toNumber from "lodash/toNumber";
 import find from "lodash/find";
 import { useRouter } from "next/navigation";
 import DynamicMap from "./components/AreaMap/DynamicMap";
+import CreateBrochureButton from "../Brochure/CreateBrochureButton";
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
@@ -77,7 +78,7 @@ const Calculator = ({
 }: CalculatorProps) => {
   const isUpdating = !!project;
   const { data: session, status } = useSession();
-  const router = useRouter();
+  // const router = useRouter();
 
   const { trigger, isMutating } = useSWRMutation("/api/project", sendRequest, {
     onSuccess: () => {
@@ -233,264 +234,271 @@ const Calculator = ({
   //     industryId: 102,
   //   });
   return (
-    <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4"
-      >
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-          <div className="flex flex-col gap-4">
-            <ReactSelect
-              id="industry"
-              options={industriesOptions}
-              label="Отрасль производства"
-              helperText={"в какой сфере будет ваше предприятие"}
-              rules={{
-                required: "Обязательное поле",
-              }}
-            />
-            <ReactSelect
-              id="legalForm"
-              options={legalFormsOptions}
-              label="Форма организации предприятия"
-              helperText={"от неё зависят некоторые параметры"}
-              rules={{
-                required: "Обязательное поле",
-              }}
-            />
+    <>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+            <div className="flex flex-col gap-4">
+              <ReactSelect
+                id="industry"
+                options={industriesOptions}
+                label="Отрасль производства"
+                helperText={"в какой сфере будет ваше предприятие"}
+                rules={{
+                  required: "Обязательное поле",
+                }}
+              />
+              <ReactSelect
+                id="legalForm"
+                options={legalFormsOptions}
+                label="Форма организации предприятия"
+                helperText={"от неё зависят некоторые параметры"}
+                rules={{
+                  required: "Обязательное поле",
+                }}
+              />
+            </div>
+            <div>
+              <div>Администаривный округ (выберете на карте)</div>
+              <DynamicMap
+                className="h-96 w-full my-2"
+                areasOptions={areasOptions}
+              />
+              <ReactSelect
+                id="area"
+                options={areasOptions}
+                helperText={"в этом АО будет производство"}
+                rules={{
+                  required: "Обязательное поле",
+                }}
+              />
+            </div>
           </div>
-          <div>
-            <div>Администаривный округ (выберете на карте)</div>
-            <DynamicMap
-              className="h-96 w-full my-2"
-              areasOptions={areasOptions}
-            />
-            <ReactSelect
-              id="area"
-              options={areasOptions}
-              helperText={"в этом АО будет производство"}
-              rules={{
-                required: "Обязательное поле",
-              }}
-            />
-          </div>
-        </div>
 
-        <Accordion
-          items={[
-            {
-              header: "Оборудование",
-              count: formatCurrency(calculator.calcEquipment()),
-              content: (
-                <div className="">
-                  <Equipment
-                    calculator={calculator}
-                    equipmentOptions={equipmentsOptions}
-                    equipmentsKeys={equipmentsKeys}
-                  />
-                </div>
-              ),
-              // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
-            },
-            {
-              header: "Затраты на покупку земли",
-              count: formatCurrency(
-                calculator.calcAreaTaxes() + calculator.calcAreaCost()
-              ),
+          <Accordion
+            items={[
+              {
+                header: "Оборудование",
+                count: formatCurrency(calculator.calcEquipment()),
+                content: (
+                  <div className="">
+                    <Equipment
+                      calculator={calculator}
+                      equipmentOptions={equipmentsOptions}
+                      equipmentsKeys={equipmentsKeys}
+                    />
+                  </div>
+                ),
+                // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
+              },
+              {
+                header: "Затраты на покупку земли",
+                count: formatCurrency(
+                  calculator.calcAreaTaxes() + calculator.calcAreaCost()
+                ),
 
-              content: (
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-                  <Input
-                    id="areaSize"
-                    label="Сколько площади необходимо, м2"
-                    type="number"
-                    validation={{
-                      max: {
-                        value: 10000000,
-                        message: "Максимум 1 000 000, м2",
-                      },
-                      required: "Обязательное поле",
-                    }}
-                    helperText={`в том числе налоги ${formatCurrency(
-                      calculator.calcAreaTaxes()
-                    )}`}
-                  />
-                </div>
-              ),
-            },
-            {
-              header: "Затраты на капитальное строительство",
-              count: formatCurrency(
-                calculator.calcAreaBuildingCost() +
-                  calculator.calcAreaBuildingTaxes()
-              ),
-              content: (
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-                  <Input
-                    id="areaBuildingSize"
-                    label="Объем капитального строительства, м2"
-                    type="number"
-                    validation={{
-                      max: {
-                        value: 10000000,
-                        message: "Максимум 1 000 000, м2",
-                      },
-                      required: "Обязательное поле",
-                    }}
-                    helperText={`в том числе налоги ${formatCurrency(
-                      calculator.calcAreaBuildingTaxes()
-                    )}`}
-                  />
-                </div>
-              ),
-            },
-            {
-              header: "Затраты на персонал",
-              count: formatCurrency(
-                calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
-              ),
-              content: (
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-                  <Input
-                    id="workersCount"
-                    label="Кол-во сотрудников"
-                    type="number"
-                    validation={{
-                      max: {
-                        value: 10000,
-                        message: "Максимум 10 000 сотрудников",
-                      },
-                      required: "Обязательное поле",
-                    }}
-                    helperText={`в том числе налоги ${formatCurrency(
-                      calculator.calcWorkersTaxes()
-                    )}`}
-                  />
-                </div>
-              ),
-            },
-            ...(allValues.legalForm?.label === "ИП"
-              ? [
-                  {
-                    header: "Патенты",
-                    count: formatCurrency(calculator.calcPatents()),
-                    content: (
-                      <div className="">
-                        <ReactSelect
-                          id="patents"
-                          isMulti
-                          options={patentsOptions}
-                          label="Необходимые патенты для вашего предприятия"
-                          helperText={""}
-                          // rules={{
-                          //   required: "Обязательное поле",
-                          // }}
-                        />
-                      </div>
-                    ),
-                  },
-                ]
-              : []),
-            {
-              header: "Услуги",
-              count: formatCurrency(calculator.calcBuhAvgCost()),
-              content: (
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-3 justify-between">
-                    <div>Услуги бухгалтера</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>{formatCurrency(calculator.calcBuhAvgCost())}</div>
+                content: (
+                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                    <Input
+                      id="areaSize"
+                      label="Сколько площади необходимо, м2"
+                      type="number"
+                      validation={{
+                        max: {
+                          value: 10000000,
+                          message: "Максимум 1 000 000, м2",
+                        },
+                        required: "Обязательное поле",
+                      }}
+                      helperText={`в том числе налоги ${formatCurrency(
+                        calculator.calcAreaTaxes()
+                      )}`}
+                    />
                   </div>
-                </div>
-              ),
-            },
-            {
-              header: "Налоги",
-              count: formatCurrency(
-                calculator.calcStateDuty() +
-                  calculator.calcAvgTransportTaxes() +
-                  calculator.calcAvgIncomeTaxes() +
-                  calculator.calcAvgTaxes() +
-                  calculator.calcAvgOtherTaxes()
-              ),
-              content: (
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-3 justify-between">
-                    <div>Госпошлина</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>{formatCurrency(calculator.calcStateDuty())}</div>
+                ),
+              },
+              {
+                header: "Затраты на капитальное строительство",
+                count: formatCurrency(
+                  calculator.calcAreaBuildingCost() +
+                    calculator.calcAreaBuildingTaxes()
+                ),
+                content: (
+                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                    <Input
+                      id="areaBuildingSize"
+                      label="Объем капитального строительства, м2"
+                      type="number"
+                      validation={{
+                        max: {
+                          value: 10000000,
+                          message: "Максимум 1 000 000, м2",
+                        },
+                        required: "Обязательное поле",
+                      }}
+                      helperText={`в том числе налоги ${formatCurrency(
+                        calculator.calcAreaBuildingTaxes()
+                      )}`}
+                    />
                   </div>
-                  <div className="flex gap-3 justify-between">
-                    <div>Средние транспортные налоги по отрасли</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>
-                      {formatCurrency(calculator.calcAvgTransportTaxes())}
+                ),
+              },
+              {
+                header: "Затраты на персонал",
+                count: formatCurrency(
+                  calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
+                ),
+                content: (
+                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                    <Input
+                      id="workersCount"
+                      label="Кол-во сотрудников"
+                      type="number"
+                      validation={{
+                        max: {
+                          value: 10000,
+                          message: "Максимум 10 000 сотрудников",
+                        },
+                        required: "Обязательное поле",
+                      }}
+                      helperText={`в том числе налоги ${formatCurrency(
+                        calculator.calcWorkersTaxes()
+                      )}`}
+                    />
+                  </div>
+                ),
+              },
+              ...(allValues.legalForm?.label === "ИП"
+                ? [
+                    {
+                      header: "Патенты",
+                      count: formatCurrency(calculator.calcPatents()),
+                      content: (
+                        <div className="">
+                          <ReactSelect
+                            id="patents"
+                            isMulti
+                            options={patentsOptions}
+                            label="Необходимые патенты для вашего предприятия"
+                            helperText={""}
+                            // rules={{
+                            //   required: "Обязательное поле",
+                            // }}
+                          />
+                        </div>
+                      ),
+                    },
+                  ]
+                : []),
+              {
+                header: "Услуги",
+                count: formatCurrency(calculator.calcBuhAvgCost()),
+                content: (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-3 justify-between">
+                      <div>Услуги бухгалтера</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>{formatCurrency(calculator.calcBuhAvgCost())}</div>
                     </div>
                   </div>
-                  <div className="flex gap-3 justify-between">
-                    <div>Средние подоходные налоги по отрасли</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>{formatCurrency(calculator.calcAvgIncomeTaxes())}</div>
+                ),
+              },
+              {
+                header: "Налоги",
+                count: formatCurrency(
+                  calculator.calcStateDuty() +
+                    calculator.calcAvgTransportTaxes() +
+                    calculator.calcAvgIncomeTaxes() +
+                    calculator.calcAvgTaxes() +
+                    calculator.calcAvgOtherTaxes()
+                ),
+                content: (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-3 justify-between">
+                      <div>Госпошлина</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>{formatCurrency(calculator.calcStateDuty())}</div>
+                    </div>
+                    <div className="flex gap-3 justify-between">
+                      <div>Средние транспортные налоги по отрасли</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>
+                        {formatCurrency(calculator.calcAvgTransportTaxes())}
+                      </div>
+                    </div>
+                    <div className="flex gap-3 justify-between">
+                      <div>Средние подоходные налоги по отрасли</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>
+                        {formatCurrency(calculator.calcAvgIncomeTaxes())}
+                      </div>
+                    </div>
+                    <div className="flex gap-3 justify-between">
+                      <div>Средние налоги по отрасли</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>{formatCurrency(calculator.calcAvgTaxes())}</div>
+                    </div>
+                    <div className="flex gap-3 justify-between">
+                      <div>Средние другие налоги по отрасли</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>
+                        {formatCurrency(calculator.calcAvgOtherTaxes())}
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-3 justify-between">
-                    <div>Средние налоги по отрасли</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>{formatCurrency(calculator.calcAvgTaxes())}</div>
-                  </div>
-                  <div className="flex gap-3 justify-between">
-                    <div>Средние другие налоги по отрасли</div>
-                    <div className="border-dotted border-b-2 flex-1"></div>
-                    <div>{formatCurrency(calculator.calcAvgOtherTaxes())}</div>
-                  </div>
-                </div>
-              ),
-            },
-            // {
-            //   header: "Запуск производства",
-            //   content: <div className=""></div>,
-            // },
-            // {
-            //   header: "Операционная работа",
-            //   content: <div className=""></div>,
-            // },
-          ]}
-        />
+                ),
+              },
+              // {
+              //   header: "Запуск производства",
+              //   content: <div className=""></div>,
+              // },
+              // {
+              //   header: "Операционная работа",
+              //   content: <div className=""></div>,
+              // },
+            ]}
+          />
 
-        <div className="grid justify-items-end">
-          <div className="bg-lime-500 text-white rounded-lg text-right font-semibold text-2xl p-4">
-            {formatCurrency(calculator.calcTotal())}
+          <div className="grid justify-items-end">
+            <div className="bg-lime-500 text-white rounded-lg text-right font-semibold text-2xl p-4">
+              {formatCurrency(calculator.calcTotal())}
+            </div>
           </div>
-        </div>
 
-        <div className="pt-4">
-          {isUpdating ? (
-            <Button
-              className="w-full"
-              variant="fill"
-              disabled={isMutatingUpdate}
-            >
-              {isMutatingUpdate ? (
-                <>
-                  <LoadingIcon /> Загрузка...
-                </>
-              ) : (
-                <>Сохранить</>
-              )}
-            </Button>
-          ) : (
-            <Button className="w-full" variant="fill" disabled={isMutating}>
-              {isMutating ? (
-                <>
-                  <LoadingIcon /> Загрузка...
-                </>
-              ) : (
-                <>Расчет</>
-              )}
-            </Button>
-          )}
-        </div>
-      </form>
-    </FormProvider>
+          <div className="pt-4 flex gap-2">
+            {isUpdating ? (
+              <Button
+                className="w-full"
+                variant="fill"
+                disabled={isMutatingUpdate}
+              >
+                {isMutatingUpdate ? (
+                  <>
+                    <LoadingIcon /> Загрузка...
+                  </>
+                ) : (
+                  <>Сохранить</>
+                )}
+              </Button>
+            ) : (
+              <Button className="w-full" variant="fill" disabled={isMutating}>
+                {isMutating ? (
+                  <>
+                    <LoadingIcon /> Загрузка...
+                  </>
+                ) : (
+                  <>Расчет</>
+                )}
+              </Button>
+            )}
+            <CreateBrochureButton calculator={calculator} />
+          </div>
+        </form>
+      </FormProvider>
+    </>
   );
 };
 

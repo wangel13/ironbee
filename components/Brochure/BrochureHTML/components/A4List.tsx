@@ -27,7 +27,7 @@ export const A4List = ({
       >
         {/* Подложка */}
         <img
-          src="./brochure/layout.png"
+          src="/brochure/layout.png"
           alt=""
           style={{
             position: "absolute",
@@ -44,7 +44,7 @@ export const A4List = ({
           <></>
         ) : (
           <img
-            src="./brochure/departImageShort.png"
+            src="/brochure/departImageShort.png"
             alt=""
             style={{
               position: "absolute",
