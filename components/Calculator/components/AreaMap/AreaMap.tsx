@@ -48,6 +48,7 @@ const AreaMap = ({ className, areasOptions }: Props) => {
         zoom={9}
         style={{ height: "100%", width: "100%" }}
         attributionControl={false}
+        scrollWheelZoom={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <GeoJSON
