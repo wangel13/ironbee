@@ -94,7 +94,7 @@ interface CalculatorProps {
   areas: any;
   patents: any;
   legalForms: any;
-  project: any;
+  project?: any;
 }
 
 const Calculator = ({
