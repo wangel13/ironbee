@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import isEmpty from "lodash/isEmpty";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { Button } from "@/components/HookForm/Button";
+import Link from "next/link";
 
 export default async function Projects() {
   const session = await getServerSession(authOptions);
@@ -37,7 +39,12 @@ export default async function Projects() {
             />
           ))}
           {isEmpty(projects) && (
-            <h2 className="text-md mt-1">Проекты отсутствуют</h2>
+            <div>
+              <h2 className="text-md mt-1">Проекты отсутствуют</h2>
+              <Link href="/projects/calculator">
+                <Button className="mt-4">Рассчитать затраты на проект</Button>
+              </Link>
+            </div>
           )}
         </>
       </div>
