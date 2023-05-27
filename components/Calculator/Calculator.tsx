@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 import React, { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -18,6 +18,7 @@ import { formatCurrency } from "@/lib/formatCurrency";
 import { Calculator3000 } from "./calculator";
 import toNumber from "lodash/toNumber";
 import { useRouter } from "next/navigation";
+import DynamicMap from "./components/AreaMap/DynamicMap";
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
@@ -72,7 +73,7 @@ const Calculator = ({
   patents,
   legalForms,
 }: CalculatorProps) => {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const { trigger, isMutating } = useSWRMutation("/api/project", sendRequest, {
@@ -202,34 +203,42 @@ const Calculator = ({
         onSubmit={methods.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
-          <ReactSelect
-            id="industry"
-            options={industriesOptions}
-            label="Отрасль производства"
-            helperText={"в какой сфере будет ваше предприятие"}
-            rules={{
-              required: "Обязательное поле",
-            }}
-          />
-          <ReactSelect
-            id="legalForm"
-            options={legalFormsOptions}
-            label="Форма организации предприятия"
-            helperText={"от неё зависят некоторые параметры"}
-            rules={{
-              required: "Обязательное поле",
-            }}
-          />
-          <ReactSelect
-            id="area"
-            options={areasOptions}
-            label="Район"
-            helperText={"в этом районе будет производство"}
-            rules={{
-              required: "Обязательное поле",
-            }}
-          />
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+          <div>
+            <ReactSelect
+              id="industry"
+              options={industriesOptions}
+              label="Отрасль производства"
+              helperText={"в какой сфере будет ваше предприятие"}
+              rules={{
+                required: "Обязательное поле",
+              }}
+            />
+            <ReactSelect
+              id="legalForm"
+              options={legalFormsOptions}
+              label="Форма организации предприятия"
+              helperText={"от неё зависят некоторые параметры"}
+              rules={{
+                required: "Обязательное поле",
+              }}
+            />
+          </div>
+          <div>
+            <div>Администаривный округ (выбереите на карте)</div>
+            <DynamicMap
+              className="h-96 w-full my-2"
+              areasOptions={areasOptions}
+            />
+            <ReactSelect
+              id="area"
+              options={areasOptions}
+              helperText={"в этом АО будет производство"}
+              rules={{
+                required: "Обязательное поле",
+              }}
+            />
+          </div>
         </div>
 
         <Accordion
