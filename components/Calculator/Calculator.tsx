@@ -25,6 +25,10 @@ async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
 }
 
+async function sendUpdateRequest(url: string, { arg }: { arg: unknown }) {
+  return axios.put(url, arg);
+}
+
 const mapDataToForm = (data: any, dicts: any) => {
   if (!data) {
     return {
@@ -54,40 +58,6 @@ const mapDataToForm = (data: any, dicts: any) => {
   };
 };
 
-// function calculate(
-//   formData: any,
-//   industryKeys: any,
-//   equipmentsKeys: any,
-//   areaKeys: any
-// ) {
-//   const industryId = formData?.industry?.value;
-//   const equipment = formData?.equipment;
-//   const areaRentalSize = get(formData, "areaRentalSize", 0);
-//   const area = get(areaKeys, formData?.area?.value);
-//   const industry = get(industryKeys, industryId);
-
-//   // Считаем расходы на сотрудников
-//   const workersCount = get(formData, "workersCount", 0);
-//   let workersSalary = workersCount * industry?.avgSalary;
-//   // Налоги
-//   const workersTaxes = workersSalary * (0.22 + 0.051);
-
-//   const equipmentPrice = reduce(
-//     equipment,
-//     (acc, item) => {
-//       const equipmentId = get(item, "type.value");
-//       const equipmentCount = get(item, "count", 0);
-//       const equipmentPrice = get(equipmentsKeys, [equipmentId, "avgCost"], 0);
-//       return acc + equipmentCount * equipmentPrice;
-//     },
-//     0
-//   );
-
-//   const areaCost = get(area, "avgCost", 0) * areaRentalSize;
-
-//   return workersTaxes + workersSalary + equipmentPrice + areaCost;
-// }
-
 interface CalculatorProps {
   equipments: any;
   industries: any;
@@ -105,18 +75,30 @@ const Calculator = ({
   legalForms,
   project,
 }: CalculatorProps) => {
+  const isUpdating = !!project;
   const { data: session, status } = useSession();
   const router = useRouter();
 
   const { trigger, isMutating } = useSWRMutation("/api/project", sendRequest, {
     onSuccess: () => {
       toast.success("Проект успешно сохранен");
-      router.push("/projects");
+      // router.push("/projects/my");
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
+
+  const { trigger: triggerUpdate, isMutating: isMutatingUpdate } =
+    useSWRMutation(`/api/project/${project?.id}`, sendUpdateRequest, {
+      onSuccess: () => {
+        toast.success("Проект успешно сохранен");
+        // router.push("/projects/my");
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message);
+      },
+    });
 
   const industriesOptions = useMemo(
     () =>
@@ -209,7 +191,7 @@ const Calculator = ({
   );
 
   const onSubmit = async (data: any) => {
-    trigger({
+    const requestData = {
       authorId: session?.user?.id,
       minCost: calculator.calcTotal(),
       maxCost: calculator.calcTotal(),
@@ -227,7 +209,13 @@ const Calculator = ({
         id: value,
       })),
       patents: map(data?.patents, ({ value }) => toNumber(value)),
-    });
+    };
+
+    if (isUpdating) {
+      triggerUpdate(requestData);
+    } else {
+      trigger(requestData);
+    }
   };
 
   // const onSubmit: SubmitHandler<Inputs> = () =>
@@ -475,15 +463,31 @@ const Calculator = ({
         </div>
 
         <div className="pt-4">
-          <Button className="w-full" variant="fill" disabled={isMutating}>
-            {isMutating ? (
-              <>
-                <LoadingIcon /> Загрузка
-              </>
-            ) : (
-              <p>Расчет</p>
-            )}
-          </Button>
+          {isUpdating ? (
+            <Button
+              className="w-full"
+              variant="fill"
+              disabled={isMutatingUpdate}
+            >
+              {isMutatingUpdate ? (
+                <>
+                  <LoadingIcon /> Загрузка...
+                </>
+              ) : (
+                <>Сохранить</>
+              )}
+            </Button>
+          ) : (
+            <Button className="w-full" variant="fill" disabled={isMutating}>
+              {isMutating ? (
+                <>
+                  <LoadingIcon /> Загрузка...
+                </>
+              ) : (
+                <>Расчет</>
+              )}
+            </Button>
+          )}
         </div>
       </form>
     </FormProvider>

@@ -10,6 +10,8 @@ export default async function Projects() {
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
 
+  console.log(userId)
+
   const projects = await prisma.project.findMany({
     include: { area: true, author: true, industry: true, legalForm: true },
     where: {
@@ -21,7 +23,7 @@ export default async function Projects() {
 
   return (
     <div className="p-4 my-4">
-      <h1 className="text-xl font-bold">Список проектов</h1>
+      <h1 className="text-xl font-bold">Список моих проектов</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
         <>
           {projects.map((project) => (
