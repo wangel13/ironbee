@@ -7,6 +7,10 @@ const checkAdminPaths = (path: string) => {
   );
 };
 
+const checkAuthorizedPaths = (path: string) => {
+  return path === "/projects" || path === "/projects/my";
+};
+
 export default async function middleware(req: NextRequest) {
   // Get the pathname of the request (e.g. /, /protected)
   const path = req.nextUrl.pathname;
@@ -22,7 +26,7 @@ export default async function middleware(req: NextRequest) {
   });
 
   if (
-    (!session && path === "/projects") ||
+    (!session && checkAuthorizedPaths(path)) ||
     (!session && checkAdminPaths(path))
   ) {
     return NextResponse.redirect(new URL("/login", req.url));
