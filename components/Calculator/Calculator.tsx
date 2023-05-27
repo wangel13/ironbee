@@ -17,12 +17,42 @@ import { Equipment } from "./components/Equipment/Equipment";
 import { formatCurrency } from "@/lib/formatCurrency";
 import { Calculator3000 } from "./calculator";
 import toNumber from "lodash/toNumber";
+import find from "lodash/find";
 import { useRouter } from "next/navigation";
 import DynamicMap from "./components/AreaMap/DynamicMap";
 
 async function sendRequest(url: string, { arg }: { arg: unknown }) {
   return axios.post(url, arg);
 }
+
+const mapDataToForm = (data: any, dicts: any) => {
+  if (!data) {
+    return {
+      industry: dicts.industriesOptions[0],
+      legalForm: dicts.legalFormsOptions[0],
+      area: dicts.areasOptions[0],
+      areaSize: 0,
+      patents: [],
+      equipment: [],
+      areaBuildingSize: 0,
+      workersCount: 0,
+    };
+  }
+
+  return {
+    industry: find(dicts.industriesOptions, { value: data.industryId }),
+    legalForm: find(dicts.legalFormsOptions, { value: data.legalFormId }),
+    area: find(dicts.areasOptions, { value: data.areaId }),
+    areaSize: data.areaRentalSize || 0,
+    patents: map(data?.patent, ({ id, name }) => ({ label: name, value: id })),
+    equipment: map(data.projectsOnEquipment, ({ count, equipmentId }) => ({
+      count,
+      type: find(dicts.equipmentsOptions, { value: equipmentId }),
+    })),
+    areaBuildingSize: data.areaBuildingSize || 0,
+    workersCount: data.workers || 0,
+  };
+};
 
 // function calculate(
 //   formData: any,
@@ -64,6 +94,7 @@ interface CalculatorProps {
   areas: any;
   patents: any;
   legalForms: any;
+  project: any;
 }
 
 const Calculator = ({
@@ -72,6 +103,7 @@ const Calculator = ({
   areas,
   patents,
   legalForms,
+  project,
 }: CalculatorProps) => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -137,18 +169,28 @@ const Calculator = ({
   const legalFormsKeys = useMemo(() => keyBy(legalForms, "id"), [legalForms]);
   const patentsKeys = useMemo(() => keyBy(patents, "id"), [patents]);
 
+  const defaultValues = useMemo(
+    () =>
+      mapDataToForm(project, {
+        industriesOptions,
+        legalFormsOptions,
+        equipmentsOptions,
+        areasOptions,
+        patentsOptions,
+      }),
+    [
+      areasOptions,
+      equipmentsOptions,
+      industriesOptions,
+      legalFormsOptions,
+      patentsOptions,
+      project,
+    ]
+  );
+
   const methods = useForm({
     mode: "onChange",
-    defaultValues: {
-      industry: industriesOptions[0],
-      legalForm: legalFormsOptions[0],
-      area: areasOptions[0],
-      areaSize: 0,
-      patents: [],
-      equipment: [],
-      areaBuildingSize: 0,
-      workersCount: 0,
-    },
+    defaultValues,
   });
 
   const allValues = methods.watch();
@@ -180,6 +222,11 @@ const Calculator = ({
       legalFormId: data?.legalForm?.value,
       areaId: data?.area?.value,
       industryId: data?.industry?.value,
+      equipment: map(data?.equipment, ({ count, type: { value } }) => ({
+        count: toNumber(count),
+        id: value,
+      })),
+      patents: map(data?.patents, ({ value }) => toNumber(value)),
     });
   };
 

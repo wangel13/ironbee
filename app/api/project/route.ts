@@ -15,7 +15,10 @@ export async function POST(req: Request) {
     legalFormId,
     areaId,
     industryId,
+    equipment,
+    patents,
   } = await req.json();
+
   try {
     const project = await prisma.project.create({
       data: {
@@ -30,6 +33,20 @@ export async function POST(req: Request) {
         legalForm: { connect: { id: legalFormId } },
         area: { connect: { id: areaId } },
         industry: { connect: { id: industryId } },
+        patent: {
+          connect: patents.map((id: number) => ({
+            id,
+          })),
+        },
+        projectsOnEquipment: {
+          create: equipment.map(
+            ({ id, count }: { id: string; count: number }) => ({
+              equipment: { connect: { id } },
+              assignedBy: authorId.toString(),
+              count,
+            })
+          ),
+        },
       },
     });
     return NextResponse.json(project);

@@ -1,7 +1,21 @@
 import prisma from "@/lib/prisma";
 import Calculator from "@/components/Calculator/Calculator";
+import toInteger from "lodash/toInteger";
 
-export default async function ProjectPage() {
+export default async function ProjectPage({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const project = await prisma.project.findUnique({
+    where: {
+      id: toInteger(id),
+    },
+    include: {
+      projectsOnEquipment: true,
+      patent: true,
+    },
+  });
   const equipments = await prisma.equipment.findMany();
   const industries = await prisma.industry.findMany({
     orderBy: [
@@ -14,10 +28,15 @@ export default async function ProjectPage() {
   const patents = await prisma.patent.findMany();
   const legalForms = await prisma.legalForm.findMany();
 
+  if (!project) {
+    throw new Error("no project error");
+  }
+
   return (
     <div className="bg-white shadow rounded p-4 my-4">
-      <h1 className="h1 mb-8">Калькулятор инвест-проекта</h1>
+      <h1 className="h1 mb-8">Инвестиционный проект</h1>
       <Calculator
+        project={project}
         equipments={equipments}
         industries={industries}
         areas={areas}
