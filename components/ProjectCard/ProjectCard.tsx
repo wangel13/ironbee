@@ -28,7 +28,9 @@ const ProjectCard = ({
     <div className="bg-white p-10 rounded-lg shadow">
       <h1 className="text-xl font-bold">{`Проект в отрасли "${industryName}" на ${years} год`}</h1>
 
-      <h1 className="text-xl font-bold mt-4">{`От ${formatCurrency(minCost)} до ${formatCurrency(maxCost)}, в млн. руб.`}</h1>
+      <h1 className="text-xl font-bold mt-4">{`От ${formatCurrency(
+        minCost
+      )} до ${formatCurrency(maxCost)}, в млн. руб.`}</h1>
 
       <div className="mt-4">
         <h2 className="text-md mt-1">
@@ -41,7 +43,7 @@ const ProjectCard = ({
                 className="w-5 h-5 fill-red-500"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M6 3.75A2.75 2.75 0 018.75 1h2.5A2.75 2.75 0 0114 3.75v.443c.572.055 1.14.122 1.706.2C17.053 4.582 18 5.75 18 7.07v3.469c0 1.126-.694 2.191-1.83 2.54-1.952.599-4.024.921-6.17.921s-4.219-.322-6.17-.921C2.694 12.73 2 11.665 2 10.539V7.07c0-1.321.947-2.489 2.294-2.676A41.047 41.047 0 016 4.193V3.75zm6.5 0v.325a41.622 41.622 0 00-5 0V3.75c0-.69.56-1.25 1.25-1.25h2.5c.69 0 1.25.56 1.25 1.25zM10 10a1 1 0 00-1 1v.01a1 1 0 001 1h.01a1 1 0 001-1V11a1 1 0 00-1-1H10z"
                   clipRule="evenodd"
                 />
@@ -84,7 +86,7 @@ const ProjectCard = ({
                 className="w-5 h-5 fill-red-500"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
                   clipRule="evenodd"
                 />
