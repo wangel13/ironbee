@@ -8,6 +8,7 @@ import { Input } from "@/components/HookForm/Input";
 import { Button } from "@/components/HookForm/Button";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   email: string;
@@ -16,20 +17,24 @@ type Inputs = {
 
 export default function AuthForm() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const methods = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setLoading(true);
     signIn("credentials", {
-      callbackUrl: "/projects/my",
       email: data.email,
+      redirect: false,
       password: data.password,
       // @ts-ignore
     }).then(({ error }) => {
-      setLoading(false);
       if (error) {
+        setLoading(false);
         toast.error(error);
+      } else {
+        router.refresh();
+        router.push("/projects/my");
       }
     });
   };

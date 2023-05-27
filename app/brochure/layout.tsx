@@ -1,4 +1,4 @@
-export default async function ProjectsLayout({
+export default async function BrochureLayout({
   children,
 }: {
   children: React.ReactNode;

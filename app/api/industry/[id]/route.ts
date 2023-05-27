@@ -42,7 +42,7 @@ export async function PUT(
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { error: "Не удалось обновить номративные значения", message: e.meta },
+        { error: "Не удалось обновить нормативные значения", message: e.meta },
         { status: 400 }
       );
     }

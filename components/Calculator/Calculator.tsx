@@ -204,7 +204,7 @@ const Calculator = ({
         className="flex flex-col gap-4"
       >
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-          <div>
+          <div className="flex flex-col gap-4">
             <ReactSelect
               id="industry"
               options={industriesOptions}
@@ -225,7 +225,7 @@ const Calculator = ({
             />
           </div>
           <div>
-            <div>Администаривный округ (выбереите на карте)</div>
+            <div>Администаривный округ (выберете на карте)</div>
             <DynamicMap
               className="h-96 w-full my-2"
               areasOptions={areasOptions}
