@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { saveAs } from "file-saver";
 import { Document, Page, StyleSheet, Font, pdf } from "@react-pdf/renderer";

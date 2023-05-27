@@ -262,7 +262,7 @@ const Calculator = ({
               />
             </div>
             <div>
-              <div>Администаривный округ (выберете на карте)</div>
+              <div>Административный округ Москвы</div>
               <DynamicMap
                 className="h-96 w-full my-2"
                 areasOptions={areasOptions}
