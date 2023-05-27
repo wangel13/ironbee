@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description,
   },
   // TODO: Change metadata
-  metadataBase: new URL("https://nextjs-postgres-auth.vercel.app"),
+  // metadataBase: new URL("https://nextjs-postgres-auth.vercel.app"),
   themeColor: "#FFF",
 };
 
