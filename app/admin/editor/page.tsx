@@ -2,7 +2,13 @@ import prisma from "@/lib/prisma";
 import { EditNormativesForm } from "@/components/EditNormatives";
 
 export default async function EditorPanelPage() {
-  const industries = await prisma.industry.findMany();
+  const industries = await prisma.industry.findMany({
+    orderBy: [
+      {
+        name: "asc",
+      },
+    ],
+  });
 
   return (
     <div className="p-4 my-4">

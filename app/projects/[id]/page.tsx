@@ -3,7 +3,13 @@ import Calculator from "@/components/Calculator/Calculator";
 
 export default async function ProjectPage() {
   const equipments = await prisma.equipment.findMany();
-  const industries = await prisma.industry.findMany();
+  const industries = await prisma.industry.findMany({
+    orderBy: [
+      {
+        name: "asc",
+      },
+    ],
+  });
   const areas = await prisma.area.findMany();
   const patents = await prisma.patent.findMany();
   const legalForms = await prisma.legalForm.findMany();
