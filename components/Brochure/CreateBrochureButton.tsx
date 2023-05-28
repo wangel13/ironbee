@@ -21,7 +21,7 @@ interface Props {
 }
 
 const CreateBrochureButton = ({ calculator }: Props) => {
-  const { watch } = useFormContext();
+  const { watch, formState } = useFormContext();
   const allValues = watch();
 
   const { generate, isGenerating } = useGeneratePDFDocument();
@@ -193,7 +193,7 @@ const CreateBrochureButton = ({ calculator }: Props) => {
     <Button
       className="w-full"
       variant="fill"
-      disabled={isMutating || isGenerating}
+      disabled={isMutating || isGenerating || !formState.isValid}
       type="button"
       onClick={handleClick}
     >

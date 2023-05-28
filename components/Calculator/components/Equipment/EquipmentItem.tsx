@@ -41,6 +41,7 @@ export const EquipmentItem = ({
             equipmentsKeys[equipmentOption?.value]?.avgCost * count
           )}
           validation={{
+            min: 0,
             max: 1000,
             required: "Обязательное поле",
           }}

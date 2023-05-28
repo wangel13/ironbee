@@ -6,7 +6,7 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="p-4 my-4">
-      <h1 className="text-xl font-bold">Аналитика</h1>
+      <h1 className="text-xl font-bold mb-8">Аналитика</h1>
       <Dashboard statistics={statistics} />
     </div>
   );

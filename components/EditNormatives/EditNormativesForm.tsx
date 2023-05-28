@@ -115,6 +115,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Отрасль производства"
             helperText={"для какой отрасли скорректировать значения"}
             rules={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -125,6 +126,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Среднесписочная численность персонала"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -133,6 +135,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Средняя з.п. сотрудников"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -141,6 +144,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Среднее значение налогов, уплаченных в бюджет Москвы"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -151,6 +155,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Налог на прибыль"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -159,6 +164,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Налог на имущество"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -167,6 +173,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Налог на землю"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -177,6 +184,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="НДФЛ"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -185,6 +193,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Транспортный налог"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />
@@ -193,6 +202,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             label="Прочие налоги"
             type="number"
             validation={{
+              min: 0,
               required: "Обязательное поле",
             }}
           />

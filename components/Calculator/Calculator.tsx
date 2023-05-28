@@ -299,6 +299,7 @@ const Calculator = ({
                       label="Кол-во сотрудников"
                       type="number"
                       validation={{
+                        min: 0,
                         max: {
                           value: 10000,
                           message: "Максимум 10 000 сотрудников",
@@ -323,6 +324,7 @@ const Calculator = ({
                       label="Сколько площади необходимо, м²"
                       type="number"
                       validation={{
+                        min: 0,
                         max: {
                           value: 10000000,
                           message: "Максимум 1 000 000, м²",
@@ -350,6 +352,7 @@ const Calculator = ({
                       label="Объем капитального строительства, м²"
                       type="number"
                       validation={{
+                        min: 0,
                         max: {
                           value: 10000000,
                           message: "Максимум 1 000 000, м²",
