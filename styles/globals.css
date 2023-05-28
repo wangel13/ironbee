@@ -5,7 +5,7 @@
 @layer base {
   html,
   body {
-    padding-bottom: 4rem;
+    /* padding-bottom: 4rem; */
     @apply bg-gray-50;
   }
 }

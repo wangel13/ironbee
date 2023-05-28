@@ -62,7 +62,7 @@ export class Calculator3000 {
     const area = get(this.areaKeys, this.data?.area?.value);
     const areaSize = get(this.data, "areaSize", 0);
 
-    const areaCost = get(area, "avgCost", 0) * areaSize;
+    const areaCost = get(area, "avgCost", 0) * areaSize * 0.0165;
     return areaCost;
   }
 

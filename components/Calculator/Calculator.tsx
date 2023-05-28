@@ -318,6 +318,7 @@ const Calculator = ({
                         },
                         required: "Обязательное поле",
                       }}
+                      helperText={`аренда земли у государства`}
                       // helperText={`в том числе налоги ${formatCurrency(
                       //   calculator.calcAreaTaxes()
                       // )}`}

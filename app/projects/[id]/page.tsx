@@ -34,7 +34,7 @@ export default async function ProjectPage({
   }
 
   return (
-    <div className="bg-white shadow rounded p-4 my-4">
+    <div className="bg-white shadow rounded p-4 my-4 mb-10">
       <h1 className="h1 mb-8">Инвестиционный проект</h1>
       <Calculator
         project={project}
