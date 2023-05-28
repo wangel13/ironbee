@@ -38,7 +38,7 @@ export async function getStatistics() {
     filter(
       map(industries, (industry) => ({
         label: industry.name,
-        labelShort: truncate(industry.name, { length: 45 }),
+        labelShort: truncate(industry.name, { length: 38 }),
         numOfProjects: industry._count.Project,
       })),
       (i) => i.numOfProjects > 0
