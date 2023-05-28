@@ -60,20 +60,20 @@ export const OverallList = ({
         {industryName}
       </Section>
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-      <Section title="ТИП ОРГАНИЗАЦИИ" iconLink="/brochure/icons/gears.png">
+      <Section title="ТИП ОРГАНИЗАЦИИ" iconLink="/brochure/icons/worker.png">
         {legalFormName}
       </Section>
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
       <Section
         title="КОЛИЧЕСТВО СОТРУДНИКОВ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/3workers.png"
       >
         {formatWholeNumber(workersCount)}
       </Section>
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
       <Section
         title="РАЙОН РАСПОЛОЖЕНИЯ ПРОИЗВОДСТВА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/map.png"
         style={{ paddingBottom: "20px" }}
       >
         {areaName}
@@ -83,7 +83,7 @@ export const OverallList = ({
       </SectionTitle>
       <Section
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
         style={{ paddingBottom: "20px" }}
       >
         {`от ${formatCurrencyMillion(
@@ -95,7 +95,7 @@ export const OverallList = ({
         ДЕТАЛИ РАСХОДОВ
       </SectionTitle>
 
-      <Section title="ПЕРСОНАЛ" iconLink="/brochure/icons/gears.png">
+      <Section title="ПЕРСОНАЛ" iconLink="/brochure/icons/5workers.png">
         {`от ${formatCurrencyMillion(
           workersTotalCostsFrom
         )} до ${formatCurrencyMillion(workersTotalCostsTo)} млн. руб.`}
@@ -104,20 +104,23 @@ export const OverallList = ({
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
       <Section
         title="АРЕНДА, СТРОИТЕЛЬСТВО И ОБОРУДОВАНИЕ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/building.png"
       >
         {`от ${formatCurrencyMillion(
           totalAreaEquipmentCostFrom
         )} до ${formatCurrencyMillion(totalAreaEquipmentCostTo)} млн. руб.`}
       </Section>
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-      <Section title="НАЛОГИ И ПАТЕНТЫ" iconLink="/brochure/icons/gears.png">
+      <Section
+        title="НАЛОГИ И ПАТЕНТЫ"
+        iconLink="/brochure/icons/spendMoney.png"
+      >
         {`от ${formatCurrencyMillion(
           totalTaxesPatentsCostFrom
         )} до ${formatCurrencyMillion(totalTaxesPatentsCostTo)} млн. руб.`}
       </Section>
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-      <Section title="УСЛУГИ" iconLink="/brochure/icons/gears.png">
+      <Section title="УСЛУГИ" iconLink="/brochure/icons/tools.png">
         {`от ${formatCurrencyMillion(buhCostsFrom)} до ${formatCurrencyMillion(
           buhCostsTo
         )} млн. руб.`}

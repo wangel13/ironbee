@@ -38,7 +38,7 @@ export const WorkersList = ({
       </SectionTitle>
 
       <BigSection
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -66,7 +66,7 @@ export const WorkersList = ({
       <Section
         isBigTitle
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ НА СОДЕРЖАНИЕ ПЕРСОНАЛА ОРГАНИЗАЦИИ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
         {`от ${formatCurrencyMillion(
           workersTotalCostsFrom
@@ -78,7 +78,7 @@ export const WorkersList = ({
       <Section
         isBigTitle
         title="ПЛАНИРУЕМАЯ ЧИСЛЕННОСТЬ ПЕРСОНАЛА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/searchPeople.png"
       >
         {formatWholeNumber(workersCount)}
       </Section>
@@ -88,7 +88,7 @@ export const WorkersList = ({
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (ПЕНСИОННОЕ СТРАХОВАНИЕ)"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/spendMoney.png"
       >
         {`от ${formatCurrencyMillion(
           workersPensionTaxesFrom
@@ -100,7 +100,7 @@ export const WorkersList = ({
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (МЕДИЦИНСКОЕ СТРАХОВАНИЕ)"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/pointMoney.png"
       >
         {`от ${formatCurrencyMillion(
           workersMedTaxesCostsFrom

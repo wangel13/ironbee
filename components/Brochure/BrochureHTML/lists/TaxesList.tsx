@@ -55,7 +55,7 @@ export const TaxesList = ({
       </SectionTitle>
 
       <BigSection
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -78,7 +78,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="НАЛОГ НА ПРИБЫЛЬ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
         {`от ${formatCurrencyMillion(
           incomeTaxesFrom
@@ -90,7 +90,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="НАЛОГ НА ИМУЩЕСТВО"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/difMoney.png"
       >
         {`от ${formatCurrencyMillion(
           propertyTaxesFrom
@@ -102,7 +102,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="ТРАНСПОРТНЫЙ НАЛОГ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/pointMoney.png"
       >
         {`от ${formatCurrencyMillion(
           transportTaxesFrom
@@ -114,7 +114,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="НАЛОГ НА ЗЕМЛЮ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/spendMoney.png"
       >
         {`от ${formatCurrencyMillion(landTaxesFrom)} до ${formatCurrencyMillion(
           landTaxesTo
@@ -126,7 +126,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="ПРОЧИЕ НАЛОГИ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
         {`от ${formatCurrencyMillion(
           otherTaxesFrom
@@ -148,7 +148,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="СТОИМОСТЬ ПАТЕНТОВ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/spendMoney.png"
       >
         {`от ${formatCurrencyMillion(
           patentCostsFrom
@@ -160,7 +160,7 @@ export const TaxesList = ({
       <Section
         isBigTitle
         title="ГОСПОШЛИНА НА ОФОРМЛЕНИЕ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/pointMoney.png"
       >
         {`${formatWholeNumber(stateDutyCosts)} руб.`}
       </Section>

@@ -39,7 +39,7 @@ export const AreaAndEquipmentList = ({
       </SectionTitle>
 
       <BigSection
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -67,7 +67,7 @@ export const AreaAndEquipmentList = ({
       <Section
         isBigTitle
         title="ПЛОЩАДЬ АРЕНДЫ ЗЕМЕЛЬНОГО УЧАСТКА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/building.png"
       >
         {`${formatWholeNumber(areaSize)} м2`}
       </Section>
@@ -75,7 +75,7 @@ export const AreaAndEquipmentList = ({
       <Section
         isBigTitle
         title="РАСХОДЫ НА АРЕНДУ ЗЕМЕЛЬНОГО УЧАСТКА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
         {`от ${formatCurrencyMillion(
           areaCostsWithTaxesFrom
@@ -87,7 +87,7 @@ export const AreaAndEquipmentList = ({
       <Section
         isBigTitle
         title="ПЛОЩАДЬ ОБЪЕКТОВ КАПИТАЛЬНОГО СТРОИТЕЛЬСТВА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/tools.png"
       >
         {`${formatWholeNumber(areaBuildingSize)} м2`}
       </Section>
@@ -95,7 +95,7 @@ export const AreaAndEquipmentList = ({
       <Section
         isBigTitle
         title="РАСХОДЫ НА ОБЪЕКТЫ КАПИТАЛЬНОГО СТРОИТЕЛЬСТВА"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
         {`от ${formatCurrencyMillion(
           areaBuildingCostsWithTaxesFrom
@@ -107,7 +107,7 @@ export const AreaAndEquipmentList = ({
       <Section
         isBigTitle
         title="РАСХОДЫ НА ПРИОБРЕТЕНИЕ ОБОРУДОВАНИЯ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/pointMoney.png"
       >
         {`от ${formatCurrencyMillion(
           equipmentCostsFrom

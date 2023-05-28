@@ -14,7 +14,7 @@ export const ResourcesList = ({}: Props) => {
       </SectionTitle>
 
       <BigSection
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>

@@ -21,7 +21,7 @@ export const ServicesList = ({ buhCostsFrom, buhCostsTo }: Props) => {
       <SectionTitle style={{ paddingBottom: "20px" }}>УСЛУГИ</SectionTitle>
 
       <BigSection
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -40,7 +40,7 @@ export const ServicesList = ({ buhCostsFrom, buhCostsTo }: Props) => {
       <Section
         isBigTitle
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ НА БУХГАЛТЕРСКИЕ УСЛУГИ"
-        iconLink="/brochure/icons/gears.png"
+        iconLink="/brochure/icons/spendMoney.png"
       >
         {`от ${formatCurrencyMillion(buhCostsFrom)} до ${formatCurrencyMillion(
           buhCostsTo
