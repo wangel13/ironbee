@@ -156,7 +156,7 @@ const NavigationLinks = ({ session }: Props) => {
       ) : (
         <Link
           href="/login"
-          className="ml-5 mr-8 flex gap-1 hover:text-gray-900"
+          className="ml-2 md:ml-5 mr-8 flex gap-1 hover:text-gray-900"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

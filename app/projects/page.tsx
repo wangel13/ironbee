@@ -1,6 +1,7 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import prisma from "@/lib/prisma";
 import isEmpty from "lodash/isEmpty";
+import { Refresher } from "@/components/Refresher";
 
 export default async function Projects() {
   const projects = await prisma.project.findMany({
@@ -9,6 +10,8 @@ export default async function Projects() {
 
   return (
     <div className="p-4 my-4">
+      <Refresher/>
+
       <h1 className="text-xl font-bold mb-8">Список проектов</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
         <>
