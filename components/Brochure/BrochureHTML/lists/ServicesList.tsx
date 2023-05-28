@@ -5,7 +5,7 @@ import SectionTitle from "../components/SectionTitle";
 import Section from "../components/Section";
 import SectionDivider from "../components/SectionDivider";
 import BigSection from "../components/BigSection";
-import { formatCurrencyMillion } from "../helpers/formatCurrencyMillion";
+import { formatCurrencyMillion } from "@/lib/formatCurrencyMillion";
 
 interface Props {
   buhCostsFrom: number;

@@ -10,8 +10,6 @@ export default async function Projects() {
   const session = await getServerSession(authOptions);
   const userId = session?.user.id;
 
-  console.log(userId)
-
   const projects = await prisma.project.findMany({
     include: { area: true, author: true, industry: true, legalForm: true },
     where: {

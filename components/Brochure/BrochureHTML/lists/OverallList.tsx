@@ -4,8 +4,8 @@ import { FOOTER_TEXT } from "../constants";
 import SectionTitle from "../components/SectionTitle";
 import Section from "../components/Section";
 import SectionDivider from "../components/SectionDivider";
-import { formatCurrencyMillion } from "../helpers/formatCurrencyMillion";
-import { formatWholeNumber } from "../helpers/formatWholeNumber";
+import { formatCurrencyMillion } from "@/lib/formatCurrencyMillion";
+import { formatWholeNumber } from "@/lib/formatWholeNumber";
 
 interface Props {
   industryName: string;
