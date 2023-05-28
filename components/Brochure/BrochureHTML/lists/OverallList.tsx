@@ -4,8 +4,50 @@ import { FOOTER_TEXT } from "../constants";
 import SectionTitle from "../components/SectionTitle";
 import Section from "../components/Section";
 import SectionDivider from "../components/SectionDivider";
+import { formatCurrencyMillion } from "../helpers/formatCurrencyMillion";
+import { formatWholeNumber } from "../helpers/formatWholeNumber";
 
-export const OverallList = () => {
+interface Props {
+  industryName: string;
+  legalFormName: string;
+  workersCount: number;
+  areaName: string;
+  totalCostsFrom: number;
+  totalCostsTo: number;
+
+  workersTotalCostsFrom: number;
+  workersTotalCostsTo: number;
+
+  totalAreaEquipmentCostFrom: number;
+  totalAreaEquipmentCostTo: number;
+
+  totalTaxesPatentsCostFrom: number;
+  totalTaxesPatentsCostTo: number;
+
+  buhCostsFrom: number;
+  buhCostsTo: number;
+}
+
+export const OverallList = ({
+  industryName,
+  legalFormName,
+  workersCount,
+  areaName,
+  totalCostsFrom,
+  totalCostsTo,
+
+  workersTotalCostsFrom,
+  workersTotalCostsTo,
+
+  totalAreaEquipmentCostFrom,
+  totalAreaEquipmentCostTo,
+
+  totalTaxesPatentsCostFrom,
+  totalTaxesPatentsCostTo,
+
+  buhCostsFrom,
+  buhCostsTo,
+}: Props) => {
   return (
     <A4List
       headerText="ОБЗОР ПРЕДВАРИТЕЛЬНЫХ РАСХОДОВ"
@@ -14,78 +56,74 @@ export const OverallList = () => {
       <SectionTitle style={{ paddingBottom: "20px" }}>
         ИНФОРМАЦИЯ О ВАШЕЙ ОРГАНИЗАЦИИ
       </SectionTitle>
-
-      <Section title="ОТРАСЛЬ" iconLink="./brochure/icons/gears.png">
-        подтягивается выбранная пользователем на электр.сервисе отрасль
+      <Section title="ОТРАСЛЬ" iconLink="/brochure/icons/gears.png">
+        {industryName}
       </Section>
-
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
-      <Section title="ТИП ОРГАНИЗАЦИИ" iconLink="./brochure/icons/gears.png">
-        (подтягивается выбранная пользователем на электр.сервисе характеристика
-        (индивидуальный предприниматель или ООО))
+      <Section title="ТИП ОРГАНИЗАЦИИ" iconLink="/brochure/icons/worker.png">
+        {legalFormName}
       </Section>
-
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
       <Section
         title="КОЛИЧЕСТВО СОТРУДНИКОВ"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/3workers.png"
       >
-        (подтягивается установленная пользователем на электр.сервисе численность
-        персонала)
+        {formatWholeNumber(workersCount)}
       </Section>
-
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
       <Section
         title="РАЙОН РАСПОЛОЖЕНИЯ ПРОИЗВОДСТВА"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/map.png"
         style={{ paddingBottom: "20px" }}
       >
-        (подтягивается выбранный пользователем на электр.сервисе район или
-        адм.округ)
+        {areaName}
       </Section>
-
       <SectionTitle style={{ paddingBottom: "20px" }}>
         ИТОГОВЫЕ ЗНАЧЕНИЯ ВОЗМОЖНЫХ ЗАТРАТ
       </SectionTitle>
-
       <Section
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
         style={{ paddingBottom: "20px" }}
       >
-        от…до…, в млн. руб.
+        {`от ${formatCurrencyMillion(
+          totalCostsFrom
+        )} до ${formatCurrencyMillion(totalCostsTo)} млн. руб.`}
       </Section>
 
       <SectionTitle style={{ paddingBottom: "20px" }}>
         ДЕТАЛИ РАСХОДОВ
       </SectionTitle>
 
-      <Section title="ПЕРСОНАЛ" iconLink="./brochure/icons/gears.png">
-        ...
+      <Section title="ПЕРСОНАЛ" iconLink="/brochure/icons/5workers.png">
+        {`от ${formatCurrencyMillion(
+          workersTotalCostsFrom
+        )} до ${formatCurrencyMillion(workersTotalCostsTo)} млн. руб.`}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
       <Section
-        title="АРЕНДА ОБЪЕКТОВ НЕДВИЖИМОСТИ"
-        iconLink="./brochure/icons/gears.png"
+        title="АРЕНДА, СТРОИТЕЛЬСТВО И ОБОРУДОВАНИЕ"
+        iconLink="/brochure/icons/building.png"
       >
-        ...
+        {`от ${formatCurrencyMillion(
+          totalAreaEquipmentCostFrom
+        )} до ${formatCurrencyMillion(totalAreaEquipmentCostTo)} млн. руб.`}
       </Section>
-
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
-      <Section title="НАЛОГИ" iconLink="./brochure/icons/gears.png">
-        ...
+      <Section
+        title="НАЛОГИ И ПАТЕНТЫ"
+        iconLink="/brochure/icons/spendMoney.png"
+      >
+        {`от ${formatCurrencyMillion(
+          totalTaxesPatentsCostFrom
+        )} до ${formatCurrencyMillion(totalTaxesPatentsCostTo)} млн. руб.`}
       </Section>
-
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
-      <Section title="УСЛУГИ" iconLink="./brochure/icons/gears.png">
-        ...
+      <Section title="УСЛУГИ" iconLink="/brochure/icons/tools.png">
+        {`от ${formatCurrencyMillion(buhCostsFrom)} до ${formatCurrencyMillion(
+          buhCostsTo
+        )} млн. руб.`}
       </Section>
     </A4List>
   );

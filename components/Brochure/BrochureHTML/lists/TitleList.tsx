@@ -11,7 +11,7 @@ export const TitleList = () => {
         }}
       >
         <img
-          src="./brochure/departImage.png"
+          src="/brochure/departImage.png"
           alt=""
           style={{
             position: "absolute",
@@ -32,7 +32,7 @@ export const TitleList = () => {
           </span>
         </div>
         <img
-          src="./brochure/landingImage.jpg"
+          src="/brochure/landingImage.jpg"
           alt=""
           style={{
             minWidth: "100%",

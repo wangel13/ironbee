@@ -66,13 +66,24 @@ export class Calculator3000 {
     return areaCost;
   }
 
-  // ИМЕЕТ СМЫСЛ РАЗДЕЛИТЬ - СМ. БРОШЮУРУ
   calcWorkersTaxes() {
     // Считаем расходы на сотрудников
     let workersSalary = this.calcWorkersSalary();
     // Налоги
     const workersTaxes = workersSalary * (0.22 + 0.051);
     return workersTaxes;
+  }
+
+  // НЕ УЧАСТВУЕТ В ОБЩЕМ РАСЧЕТЕ, так как есть - calcWorkersTaxes
+  calcWorkersMedTaxes() {
+    let workersSalary = this.calcWorkersSalary();
+    return workersSalary * 0.051;
+  }
+
+  // НЕ УЧАСТВУЕТ В ОБЩЕМ РАСЧЕТЕ, так как есть - calcWorkersTaxes
+  calcWorkersPensionTaxes() {
+    let workersSalary = this.calcWorkersSalary();
+    return workersSalary * 0.22;
   }
 
   calcWorkersSalary() {

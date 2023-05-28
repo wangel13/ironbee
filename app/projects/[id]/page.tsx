@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import Calculator from "@/components/Calculator/Calculator";
 import toInteger from "lodash/toInteger";
+import BrochurePDFGenerator from "@/components/Brochure/BrochurePDFGenerator";
 
 export default async function ProjectPage({
   params: { id },

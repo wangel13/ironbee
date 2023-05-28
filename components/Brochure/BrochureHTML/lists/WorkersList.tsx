@@ -5,8 +5,29 @@ import SectionTitle from "../components/SectionTitle";
 import Section from "../components/Section";
 import SectionDivider from "../components/SectionDivider";
 import BigSection from "../components/BigSection";
+import { formatCurrencyMillion } from "../helpers/formatCurrencyMillion";
+import { formatWholeNumber } from "../helpers/formatWholeNumber";
 
-export const WorkersList = () => {
+interface Props {
+  workersCount: number;
+
+  workersMedTaxesCostsFrom: number;
+  workersMedTaxesCostsTo: number;
+  workersPensionTaxesFrom: number;
+  workersPensionTaxesTo: number;
+  workersTotalCostsFrom: number;
+  workersTotalCostsTo: number;
+}
+export const WorkersList = ({
+  workersCount,
+
+  workersMedTaxesCostsFrom,
+  workersMedTaxesCostsTo,
+  workersPensionTaxesFrom,
+  workersPensionTaxesTo,
+  workersTotalCostsFrom,
+  workersTotalCostsTo,
+}: Props) => {
   return (
     <A4List
       headerText="ОБЗОР ПРЕДВАРИТЕЛЬНЫХ РАСХОДОВ"
@@ -17,7 +38,7 @@ export const WorkersList = () => {
       </SectionTitle>
 
       <BigSection
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/moscow.png"
         style={{ marginBottom: "20px" }}
       >
         <div style={{ paddingBottom: "10px" }}>
@@ -45,9 +66,11 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="ИТОГО ВОЗМОЖНЫХ РАСХОДОВ НА СОДЕРЖАНИЕ ПЕРСОНАЛА ОРГАНИЗАЦИИ"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
-        от…до…, в млн. руб.
+        {`от ${formatCurrencyMillion(
+          workersTotalCostsFrom
+        )} до ${formatCurrencyMillion(workersTotalCostsTo)} млн. руб.`}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
@@ -55,9 +78,9 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="ПЛАНИРУЕМАЯ ЧИСЛЕННОСТЬ ПЕРСОНАЛА"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/searchPeople.png"
       >
-        человек
+        {formatWholeNumber(workersCount)}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
@@ -65,9 +88,11 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (ПЕНСИОННОЕ СТРАХОВАНИЕ)"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/spendMoney.png"
       >
-        «от…до…, в млн.руб.»
+        {`от ${formatCurrencyMillion(
+          workersPensionTaxesFrom
+        )} до ${formatCurrencyMillion(workersPensionTaxesTo)} млн. руб.`}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
@@ -75,9 +100,11 @@ export const WorkersList = () => {
       <Section
         isBigTitle
         title="СТРАХОВЫЕ ВЗНОСЫ (МЕДИЦИНСКОЕ СТРАХОВАНИЕ)"
-        iconLink="./brochure/icons/gears.png"
+        iconLink="/brochure/icons/pointMoney.png"
       >
-        «от…до…, в млн.руб.»
+        {`от ${formatCurrencyMillion(
+          workersMedTaxesCostsFrom
+        )} до ${formatCurrencyMillion(workersMedTaxesCostsTo)} млн. руб.`}
       </Section>
     </A4List>
   );

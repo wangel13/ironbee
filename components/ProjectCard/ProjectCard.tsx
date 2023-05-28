@@ -30,7 +30,7 @@ const ProjectCard = ({
 
       <h1 className="text-xl font-bold mt-4">{`От ${formatCurrency(
         minCost
-      )} до ${formatCurrency(maxCost)}, в млн. руб.`}</h1>
+      )} до ${formatCurrency(maxCost)} млн. руб.`}</h1>
 
       <div className="mt-4">
         <h2 className="text-md mt-1">

@@ -17,14 +17,14 @@ Font.register({
   family: "Roboto",
   fonts: [
     {
-      src: "./fonts/Roboto-Light.ttf",
+      src: "/fonts/Roboto-Light.ttf",
     },
     {
-      src: "./fonts/Roboto-Bold.ttf",
+      src: "/fonts/Roboto-Bold.ttf",
       fontWeight: "bold",
     },
     {
-      src: "./fonts/Roboto-Medium.ttf",
+      src: "/fonts/Roboto-Medium.ttf",
       fontWeight: "normal",
       fontStyle: "italic",
     },
@@ -60,13 +60,13 @@ const BrochureClientLink = ({ html }: { html: any }) => {
           fileName="Отчет о затратах.pdf"
         >
           {({ blob, url, loading, error }) => (
-            <Button variant="fill" disabled={loading}>
+            <Button variant="fill" disabled={loading} type="button">
               {loading ? (
                 <>
                   <LoadingIcon /> Загрузка
                 </>
               ) : (
-                <p>Скачать брошюру</p>
+                <p>Скачать PDF</p>
               )}
             </Button>
           )}
