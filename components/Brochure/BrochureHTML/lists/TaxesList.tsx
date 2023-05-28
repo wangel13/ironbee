@@ -13,12 +13,8 @@ interface Props {
   transportTaxesTo: number;
   incomeTaxesFrom: number;
   incomeTaxesTo: number;
-  landTaxesFrom: number;
-  landTaxesTo: number;
   otherTaxesFrom: number;
   otherTaxesTo: number;
-  propertyTaxesFrom: number;
-  propertyTaxesTo: number;
 
   patentsCount: number;
   patentCostsFrom: number;
@@ -32,12 +28,8 @@ export const TaxesList = ({
   transportTaxesTo,
   incomeTaxesFrom,
   incomeTaxesTo,
-  landTaxesFrom,
-  landTaxesTo,
   otherTaxesFrom,
   otherTaxesTo,
-  propertyTaxesFrom,
-  propertyTaxesTo,
 
   patentsCount,
   patentCostsFrom,
@@ -77,24 +69,10 @@ export const TaxesList = ({
 
       <Section
         isBigTitle
-        title="НАЛОГ НА ПРИБЫЛЬ"
-        iconLink="/brochure/icons/aLotOfMoney.png"
+        title="ГОСПОШЛИНА НА ОФОРМЛЕНИЕ"
+        iconLink="/brochure/icons/pointMoney.png"
       >
-        {`от ${formatCurrencyMillion(
-          incomeTaxesFrom
-        )} до ${formatCurrencyMillion(incomeTaxesTo)} млн. руб.`}
-      </Section>
-
-      <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
-      <Section
-        isBigTitle
-        title="НАЛОГ НА ИМУЩЕСТВО"
-        iconLink="/brochure/icons/difMoney.png"
-      >
-        {`от ${formatCurrencyMillion(
-          propertyTaxesFrom
-        )} до ${formatCurrencyMillion(propertyTaxesTo)} млн. руб.`}
+        {`${formatWholeNumber(stateDutyCosts)} руб.`}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
@@ -113,12 +91,12 @@ export const TaxesList = ({
 
       <Section
         isBigTitle
-        title="НАЛОГ НА ЗЕМЛЮ"
-        iconLink="/brochure/icons/spendMoney.png"
+        title="НАЛОГ НА ПРИБЫЛЬ"
+        iconLink="/brochure/icons/aLotOfMoney.png"
       >
-        {`от ${formatCurrencyMillion(landTaxesFrom)} до ${formatCurrencyMillion(
-          landTaxesTo
-        )} млн. руб.`}
+        {`от ${formatCurrencyMillion(
+          incomeTaxesFrom
+        )} до ${formatCurrencyMillion(incomeTaxesTo)} млн. руб.`}
       </Section>
 
       <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
@@ -153,16 +131,6 @@ export const TaxesList = ({
         {`от ${formatCurrencyMillion(
           patentCostsFrom
         )} до ${formatCurrencyMillion(patentCostsTo)} млн. руб.`}
-      </Section>
-
-      <SectionDivider style={{ marginBottom: "10px", marginTop: "10px" }} />
-
-      <Section
-        isBigTitle
-        title="ГОСПОШЛИНА НА ОФОРМЛЕНИЕ"
-        iconLink="/brochure/icons/pointMoney.png"
-      >
-        {`${formatWholeNumber(stateDutyCosts)} руб.`}
       </Section>
     </A4List>
   );

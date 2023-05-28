@@ -42,12 +42,8 @@ interface Props {
     transportTaxesTo: number;
     incomeTaxesFrom: number;
     incomeTaxesTo: number;
-    landTaxesFrom: number;
-    landTaxesTo: number;
     otherTaxesFrom: number;
     otherTaxesTo: number;
-    propertyTaxesFrom: number;
-    propertyTaxesTo: number;
 
     stateDutyCosts: number;
 
@@ -95,12 +91,8 @@ const BrochureHTML = ({ data }: Props) => {
     transportTaxesTo,
     incomeTaxesFrom,
     incomeTaxesTo,
-    landTaxesFrom,
-    landTaxesTo,
     otherTaxesFrom,
     otherTaxesTo,
-    propertyTaxesFrom,
-    propertyTaxesTo,
 
     patentsCount,
     patentCostsFrom,
@@ -156,12 +148,8 @@ const BrochureHTML = ({ data }: Props) => {
         transportTaxesTo={transportTaxesTo}
         incomeTaxesFrom={incomeTaxesFrom}
         incomeTaxesTo={incomeTaxesTo}
-        landTaxesFrom={landTaxesFrom}
-        landTaxesTo={landTaxesTo}
         otherTaxesFrom={otherTaxesFrom}
         otherTaxesTo={otherTaxesTo}
-        propertyTaxesFrom={propertyTaxesFrom}
-        propertyTaxesTo={propertyTaxesTo}
         patentsCount={patentsCount}
         patentCostsFrom={patentCostsFrom}
         patentCostsTo={patentCostsTo}

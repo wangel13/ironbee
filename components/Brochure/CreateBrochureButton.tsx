@@ -72,8 +72,8 @@ const CreateBrochureButton = ({ calculator }: Props) => {
     // Аренда строительство и оборудование
     const areaSize = get(allValues, "areaSize", "");
     const areaCosts = calculator.calcAreaCost();
-    const areaTaxes = calculator.calcAreaTaxes();
-    const areaCostsWithTaxes = areaCosts + areaTaxes;
+    // const areaTaxes = calculator.calcAreaTaxes();
+    const areaCostsWithTaxes = areaCosts + 0;
     const [areaCostsWithTaxesFrom, areaCostsWithTaxesTo] =
       getFromToValue(areaCostsWithTaxes);
 
@@ -104,17 +104,16 @@ const CreateBrochureButton = ({ calculator }: Props) => {
     const incomeTaxes = calculator.calcAvgIncomeTaxes();
     const [incomeTaxesFrom, incomeTaxesTo] = getFromToValue(incomeTaxes);
 
-    const landTaxes = calculator.calcAvgLandTaxes();
-    const [landTaxesFrom, landTaxesTo] = getFromToValue(landTaxes);
+    // const landTaxes = calculator.calcAvgLandTaxes();
+    // const [landTaxesFrom, landTaxesTo] = getFromToValue(landTaxes);
 
     const otherTaxes = calculator.calcAvgOtherTaxes();
     const [otherTaxesFrom, otherTaxesTo] = getFromToValue(otherTaxes);
 
-    const propertyTaxes = calculator.calcAvgPropertyTaxes();
-    const [propertyTaxesFrom, propertyTaxesTo] = getFromToValue(propertyTaxes);
+    // const propertyTaxes = calculator.calcAvgPropertyTaxes();
+    // const [propertyTaxesFrom, propertyTaxesTo] = getFromToValue(propertyTaxes);
 
-    const totalTaxes =
-      transportTaxes + incomeTaxes + landTaxes + otherTaxes + propertyTaxes;
+    const totalTaxes = transportTaxes + incomeTaxes + otherTaxes;
     const [totalTaxesFrom, totalTaxesTo] = getFromToValue(totalTaxes);
 
     const patentsCount = get(allValues, "patents.length", 0);
@@ -171,12 +170,9 @@ const CreateBrochureButton = ({ calculator }: Props) => {
       transportTaxesTo,
       incomeTaxesFrom,
       incomeTaxesTo,
-      landTaxesFrom,
-      landTaxesTo,
+
       otherTaxesFrom,
       otherTaxesTo,
-      propertyTaxesFrom,
-      propertyTaxesTo,
 
       patentsCount,
       patentCostsFrom,
