@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../HookForm/Button";
 import Link from "next/link";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { formatCurrencyMillion } from "@/lib/formatCurrencyMillion";
 
 interface ProjectCardProps {
   id: number;
@@ -28,9 +28,9 @@ const ProjectCard = ({
     <div className="bg-white p-10 rounded-lg shadow">
       <h1 className="text-xl font-bold">{`Проект в отрасли "${industryName}" на ${years} год`}</h1>
 
-      <h1 className="text-xl font-bold mt-4">{`От ${formatCurrency(
+      <h1 className="text-xl font-bold mt-4">{`От ${formatCurrencyMillion(
         minCost
-      )} до ${formatCurrency(maxCost)} млн. руб.`}</h1>
+      )} до ${formatCurrencyMillion(maxCost)} млн. руб.`}</h1>
 
       <div className="mt-4">
         <h2 className="text-md mt-1">
