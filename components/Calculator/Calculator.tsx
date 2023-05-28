@@ -533,7 +533,7 @@ const Calculator = ({
                 )}
               </Button>
             )}
-            <CreateBrochureButton calculator={calculator} />
+            {session && <CreateBrochureButton calculator={calculator} />}
           </div>
         </form>
       </FormProvider>
