@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 
 interface Props {
-  children: number | string;
+  children: number | string | ReactNode;
   title: string;
   iconLink: string;
   style?: React.CSSProperties;

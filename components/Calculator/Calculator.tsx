@@ -309,12 +309,12 @@ const Calculator = ({
                   <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
                     <Input
                       id="areaSize"
-                      label="Сколько площади необходимо, м2"
+                      label="Сколько площади необходимо, м²"
                       type="number"
                       validation={{
                         max: {
                           value: 10000000,
-                          message: "Максимум 1 000 000, м2",
+                          message: "Максимум 1 000 000, м²",
                         },
                         required: "Обязательное поле",
                       }}
@@ -336,12 +336,12 @@ const Calculator = ({
                   <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
                     <Input
                       id="areaBuildingSize"
-                      label="Объем капитального строительства, м2"
+                      label="Объем капитального строительства, м²"
                       type="number"
                       validation={{
                         max: {
                           value: 10000000,
-                          message: "Максимум 1 000 000, м2",
+                          message: "Максимум 1 000 000, м²",
                         },
                         required: "Обязательное поле",
                       }}
@@ -401,7 +401,7 @@ const Calculator = ({
                 : []),
               {
                 header: "Услуги",
-                count: formatCurrency(calculator.calcBuhAvgCost()),
+                count: formatPriceRange(calculator.calcBuhAvgCost()),
                 content: (
                   <div className="flex flex-col gap-2">
                     <div className="flex gap-3 justify-between">

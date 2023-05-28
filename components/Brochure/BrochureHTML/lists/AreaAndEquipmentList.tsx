@@ -69,7 +69,7 @@ export const AreaAndEquipmentList = ({
         title="ПЛОЩАДЬ АРЕНДЫ ЗЕМЕЛЬНОГО УЧАСТКА"
         iconLink="/brochure/icons/building.png"
       >
-        {`${formatWholeNumber(areaSize)} м2`}
+        {`${formatWholeNumber(areaSize)} м²`}
       </Section>
 
       <Section
@@ -89,7 +89,7 @@ export const AreaAndEquipmentList = ({
         title="ПЛОЩАДЬ ОБЪЕКТОВ КАПИТАЛЬНОГО СТРОИТЕЛЬСТВА"
         iconLink="/brochure/icons/tools.png"
       >
-        {`${formatWholeNumber(areaBuildingSize)} м2`}
+        {`${formatWholeNumber(areaBuildingSize)} м²`}
       </Section>
 
       <Section

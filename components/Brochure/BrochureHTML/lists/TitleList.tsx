@@ -22,7 +22,7 @@ export const TitleList = () => {
           }}
         />
         <div
-          style={{ padding: "20px", paddingTop: "80px", paddingBottom: "80px" }}
+          style={{ padding: "30px", paddingTop: "80px", paddingBottom: "80px" }}
         >
           <span style={{ fontSize: "32px", fontWeight: "bold" }}>ОТЧЕТ</span>
           <br></br>
