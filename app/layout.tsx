@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { NextAuthProvider } from "./providers";
 
+export const revalidate = 0;
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
