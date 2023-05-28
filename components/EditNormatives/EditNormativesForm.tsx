@@ -108,7 +108,7 @@ const EditNormativesForm = ({ industries }: Props) => {
         onSubmit={methods.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-20 gap-4">
           <ReactSelect
             id="industry"
             options={industriesOptions}
@@ -119,7 +119,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             }}
           />
         </div>
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-20 gap-4">
           <Input
             id="avgWorkers"
             label="Среднесписочная численность персонала"
@@ -145,7 +145,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             }}
           />
         </div>
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-20 gap-4">
           <Input
             id="avgIncomeTaxes"
             label="Налог на прибыль"
@@ -171,7 +171,7 @@ const EditNormativesForm = ({ industries }: Props) => {
             }}
           />
         </div>
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-20">
+        <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-20 gap-4">
           <Input
             id="avgNDFL"
             label="НДФЛ"

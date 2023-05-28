@@ -2,10 +2,10 @@ import cx from "classnames";
 import { PropsWithChildren } from "react";
 
 const severityClass = {
-  error: "text-rose-500 shadow-rose-500/50",
-  warning: "text-amber-500 shadow-amber-500/50",
-  success: "text-green-500 shadow-green-500/50",
-  info: "text-sky-400 shadow-sky-500/50",
+  error: "text-rose-500 border-rose-500/50",
+  warning: "text-amber-500 border-amber-500/50",
+  success: "text-green-500 border-green-500/50",
+  info: "text-sky-400 border-sky-500/50",
 };
 
 type Props = {
@@ -20,7 +20,7 @@ export const Alert = ({
   return (
     <div
       className={cx(
-        "bg-white rounded-lg shadow px-8 py-8",
+        "bg-white rounded-lg border px-8 py-8",
         severityClass[severity]
       )}
     >

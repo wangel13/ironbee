@@ -3,8 +3,12 @@ import { signOut } from "next-auth/react";
 import { Button } from "./HookForm/Button";
 
 export default function SignOut() {
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" });
+  };
+
   return (
-    <Button className="" onClick={() => signOut()}>
+    <Button className="" onClick={handleSignOut}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

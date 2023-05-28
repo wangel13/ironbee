@@ -17,12 +17,12 @@ const NavigationLinks = ({ session }: Props) => {
   };
 
   return (
-    <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+    <nav className="md:ml-auto flex md:flex-row flex-col flex-wrap md:items-center text-base justify-center gap-8">
       {session?.user?.role === "ADMIN" && (
         <>
           <Link
             href="/admin/analytics"
-            className={`flex gap-1 mr-8  ${
+            className={`flex md:px-0 px-2 gap-1  ${
               isCurrentPath("/admin/analytics")
                 ? "text-red-500 "
                 : "hover:text-gray-900"
@@ -51,7 +51,7 @@ const NavigationLinks = ({ session }: Props) => {
           </Link>
           <Link
             href="/admin/editor"
-            className={`flex gap-1 mr-8  ${
+            className={`flex md:px-0 px-2 gap-1  ${
               isCurrentPath("/admin/editor")
                 ? "text-red-500 "
                 : "hover:text-gray-900"
@@ -75,7 +75,7 @@ const NavigationLinks = ({ session }: Props) => {
           </Link>
           <Link
             href="/projects"
-            className={`flex gap-1 mr-8  ${
+            className={`flex md:px-0 px-2 gap-1  ${
               isCurrentPath("/projects")
                 ? "text-red-500 "
                 : "hover:text-gray-900"
@@ -101,7 +101,7 @@ const NavigationLinks = ({ session }: Props) => {
       )}
       <Link
         href="/projects/calculator"
-        className={`flex gap-1 mr-8  ${
+        className={`flex md:px-0 px-2 gap-1  ${
           isCurrentPath("/projects/calculator")
             ? "text-red-500 "
             : "hover:text-gray-900"
@@ -127,7 +127,7 @@ const NavigationLinks = ({ session }: Props) => {
         <>
           <Link
             href="/projects/my"
-            className={`flex gap-1 mr-8  ${
+            className={`flex md:px-0 px-2 gap-1  ${
               isCurrentPath("/projects/my")
                 ? "text-red-500 "
                 : "hover:text-gray-900"
@@ -149,7 +149,7 @@ const NavigationLinks = ({ session }: Props) => {
             </svg>
             Мои проекты
           </Link>
-          <div className="ml-5 ">
+          <div className="md:ml-5 ml-2">
             <SignOut />
           </div>
         </>

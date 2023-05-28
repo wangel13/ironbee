@@ -22,7 +22,7 @@ export const EquipmentItem = ({
   const count = watch(`equipment.${index}.count`);
 
   return (
-    <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+    <div className="grid grid-cols-2 lg:gap-20 gap-4">
       <ReactSelect
         id={`equipment.${index}.type`}
         options={equipmentOptions}
