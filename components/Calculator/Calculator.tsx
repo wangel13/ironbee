@@ -288,18 +288,29 @@ const Calculator = ({
           <Accordion
             items={[
               {
-                header: "Оборудование",
-                count: formatPriceRange(calculator.calcEquipment()),
+                header: "Затраты на персонал",
+                count: formatPriceRange(
+                  calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
+                ),
                 content: (
-                  <div className="">
-                    <Equipment
-                      calculator={calculator}
-                      equipmentOptions={equipmentsOptions}
-                      equipmentsKeys={equipmentsKeys}
+                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
+                    <Input
+                      id="workersCount"
+                      label="Кол-во сотрудников"
+                      type="number"
+                      validation={{
+                        max: {
+                          value: 10000,
+                          message: "Максимум 10 000 сотрудников",
+                        },
+                        required: "Обязательное поле",
+                      }}
+                      helperText={`в том числе страховые взносы ${formatPriceRange(
+                        calculator.calcWorkersTaxes()
+                      )}`}
                     />
                   </div>
                 ),
-                // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
               },
               {
                 header: "Затраты на аренду земли",
@@ -353,64 +364,18 @@ const Calculator = ({
                 ),
               },
               {
-                header: "Затраты на персонал",
-                count: formatPriceRange(
-                  calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
-                ),
+                header: "Оборудование",
+                count: formatPriceRange(calculator.calcEquipment()),
                 content: (
-                  <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
-                    <Input
-                      id="workersCount"
-                      label="Кол-во сотрудников"
-                      type="number"
-                      validation={{
-                        max: {
-                          value: 10000,
-                          message: "Максимум 10 000 сотрудников",
-                        },
-                        required: "Обязательное поле",
-                      }}
-                      helperText={`в том числе страховые взносы ${formatPriceRange(
-                        calculator.calcWorkersTaxes()
-                      )}`}
+                  <div className="">
+                    <Equipment
+                      calculator={calculator}
+                      equipmentOptions={equipmentsOptions}
+                      equipmentsKeys={equipmentsKeys}
                     />
                   </div>
                 ),
-              },
-              ...(allValues.legalForm?.label === "ИП"
-                ? [
-                    {
-                      header: "Патенты",
-                      count: formatPriceRange(calculator.calcPatents()),
-                      content: (
-                        <div className="">
-                          <ReactSelect
-                            id="patents"
-                            isMulti
-                            options={patentsOptions}
-                            label="Необходимые патенты для вашего предприятия"
-                            helperText={""}
-                            // rules={{
-                            //   required: "Обязательное поле",
-                            // }}
-                          />
-                        </div>
-                      ),
-                    },
-                  ]
-                : []),
-              {
-                header: "Услуги",
-                count: formatPriceRange(calculator.calcBuhAvgCost()),
-                content: (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex gap-3 justify-between">
-                      <div>Услуги бухгалтера</div>
-                      <div className="border-dotted border-b-2 flex-1"></div>
-                      <div>{formatCurrency(calculator.calcBuhAvgCost())}</div>
-                    </div>
-                  </div>
-                ),
+                // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
               },
               {
                 header: "Налоги",
@@ -457,6 +422,42 @@ const Calculator = ({
                   </div>
                 ),
               },
+              ...(allValues.legalForm?.label === "ИП"
+                ? [
+                    {
+                      header: "Патенты",
+                      count: formatPriceRange(calculator.calcPatents()),
+                      content: (
+                        <div className="">
+                          <ReactSelect
+                            id="patents"
+                            isMulti
+                            options={patentsOptions}
+                            label="Необходимые патенты для вашего предприятия"
+                            helperText={""}
+                            // rules={{
+                            //   required: "Обязательное поле",
+                            // }}
+                          />
+                        </div>
+                      ),
+                    },
+                  ]
+                : []),
+              {
+                header: "Услуги",
+                count: formatPriceRange(calculator.calcBuhAvgCost()),
+                content: (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-3 justify-between">
+                      <div>Услуги бухгалтера</div>
+                      <div className="border-dotted border-b-2 flex-1"></div>
+                      <div>{formatCurrency(calculator.calcBuhAvgCost())}</div>
+                    </div>
+                  </div>
+                ),
+              },
+
               // {
               //   header: "Запуск производства",
               //   content: <div className=""></div>,
