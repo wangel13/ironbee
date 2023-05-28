@@ -110,7 +110,7 @@ const BrochureHTML = ({ data }: Props) => {
 
     buhCostsFrom,
     buhCostsTo,
-  } = data;
+  } = data || {};
 
   return (
     <>
