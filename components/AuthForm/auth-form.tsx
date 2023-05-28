@@ -84,6 +84,11 @@ export default function AuthForm() {
             Зарегистрироваться
           </Link>
         </p>
+        <p className="text-center text-sm text-gray-600">
+          <Link className="underline" href="/">
+            на главную
+          </Link>
+        </p>
       </form>
     </FormProvider>
   );

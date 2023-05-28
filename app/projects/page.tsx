@@ -9,7 +9,7 @@ export default async function Projects() {
 
   return (
     <div className="p-4 my-4">
-      <h1 className="text-xl font-bold">Список проектов</h1>
+      <h1 className="text-xl font-bold mb-8">Список проектов</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
         <>
           {projects.map((project) => (

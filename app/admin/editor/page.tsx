@@ -12,7 +12,7 @@ export default async function EditorPanelPage() {
 
   return (
     <div className="p-4 my-4">
-      <h1 className="text-xl font-bold">Редактор нормативных значений</h1>
+      <h1 className="text-xl font-bold mb-8">Редактор нормативных значений</h1>
       <div className="bg-white shadow rounded p-4 my-4 mb-10">
         <EditNormativesForm industries={industries} />
       </div>
