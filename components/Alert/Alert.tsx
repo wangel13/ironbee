@@ -24,7 +24,7 @@ export const Alert = ({
         severityClass[severity]
       )}
     >
-      <div className={"flex gap-4 flex-wrap"}>
+      <div className={"flex gap-4 flex-no-wrap"}>
         <div>
           {severity === "warning" && (
             <svg

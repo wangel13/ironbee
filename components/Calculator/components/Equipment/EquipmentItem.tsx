@@ -2,7 +2,7 @@ import { ReactSelect } from "@/components/HookForm/ReactSelect";
 import { Input } from "@/components/HookForm/Input";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/HookForm/Button";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { formatPriceRange } from "@/lib/formatCurrency";
 
 interface Props {
   index: number;
@@ -37,10 +37,11 @@ export const EquipmentItem = ({
           id={`equipment.${index}.count`}
           label="Количество"
           type="number"
-          helperText={formatCurrency(
+          helperText={formatPriceRange(
             equipmentsKeys[equipmentOption?.value]?.avgCost * count
           )}
           validation={{
+            max: 1000,
             required: "Обязательное поле",
           }}
         />

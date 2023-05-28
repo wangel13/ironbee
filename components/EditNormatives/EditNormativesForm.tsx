@@ -198,7 +198,11 @@ const EditNormativesForm = ({ industries }: Props) => {
           />
         </div>
         <div className="pt-4">
-          <Button className="w-full" variant="fill" disabled={isMutating}>
+          <Button
+            className="w-full"
+            variant="fill"
+            disabled={isMutating || !methods.formState.isValid}
+          >
             {isMutating ? (
               <>
                 <LoadingIcon /> Загрузка...

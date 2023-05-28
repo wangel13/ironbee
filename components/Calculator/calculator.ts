@@ -184,13 +184,13 @@ export class Calculator3000 {
       this.calcWorkersTaxes() +
       this.calcEquipment() +
       this.calcAreaCost() +
-      this.calcAreaTaxes() +
+      // this.calcAreaTaxes() +
       this.calcAreaBuildingCost() +
       this.calcAreaBuildingTaxes() +
       this.calcStateDuty() +
       this.calcBuhAvgCost() +
       this.calcAvgIncomeTaxes() +
-      this.calcAvgTaxes() +
+      // this.calcAvgTaxes() +
       // this.calcAvgPropertyTaxes() +
       // this.calcAvgLandTaxes() +
       this.calcAvgOtherTaxes() +

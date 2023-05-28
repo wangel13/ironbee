@@ -14,7 +14,7 @@ import map from "lodash/map";
 import keyBy from "lodash/keyBy";
 import { Accordion } from "../Accordion";
 import { Equipment } from "./components/Equipment/Equipment";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { formatCurrency, formatPriceRange } from "@/lib/formatCurrency";
 import { Calculator3000 } from "./calculator";
 import toNumber from "lodash/toNumber";
 import find from "lodash/find";
@@ -262,6 +262,11 @@ const Calculator = ({
                   required: "Обязательное поле",
                 }}
               />
+              <Alert
+                severity="info"
+                title="Расчеты включают в себя запуск и 1 год операционной
+                деятельности"
+              ></Alert>
             </div>
             <div>
               <div>Административный округ Москвы</div>
@@ -284,7 +289,7 @@ const Calculator = ({
             items={[
               {
                 header: "Оборудование",
-                count: formatCurrency(calculator.calcEquipment()),
+                count: formatPriceRange(calculator.calcEquipment()),
                 content: (
                   <div className="">
                     <Equipment
@@ -297,10 +302,8 @@ const Calculator = ({
                 // disabled: true, МОЖНО БЛОКИРОВАТЬ ПОКА НЕ ВЫБРАНА ОТРАСЛЬ, ЧТОБЫ НЕ БЫЛО NaN
               },
               {
-                header: "Затраты на покупку земли",
-                count: formatCurrency(
-                  calculator.calcAreaTaxes() + calculator.calcAreaCost()
-                ),
+                header: "Затраты на аренду земли",
+                count: formatPriceRange(calculator.calcAreaCost()),
 
                 content: (
                   <div className="grid lg:grid-cols-2 grid-cols-1 gap-20">
@@ -315,16 +318,16 @@ const Calculator = ({
                         },
                         required: "Обязательное поле",
                       }}
-                      helperText={`в том числе налоги ${formatCurrency(
-                        calculator.calcAreaTaxes()
-                      )}`}
+                      // helperText={`в том числе налоги ${formatCurrency(
+                      //   calculator.calcAreaTaxes()
+                      // )}`}
                     />
                   </div>
                 ),
               },
               {
                 header: "Затраты на капитальное строительство",
-                count: formatCurrency(
+                count: formatPriceRange(
                   calculator.calcAreaBuildingCost() +
                     calculator.calcAreaBuildingTaxes()
                 ),
@@ -341,7 +344,7 @@ const Calculator = ({
                         },
                         required: "Обязательное поле",
                       }}
-                      helperText={`в том числе налоги ${formatCurrency(
+                      helperText={`в том числе налоги ${formatPriceRange(
                         calculator.calcAreaBuildingTaxes()
                       )}`}
                     />
@@ -350,7 +353,7 @@ const Calculator = ({
               },
               {
                 header: "Затраты на персонал",
-                count: formatCurrency(
+                count: formatPriceRange(
                   calculator.calcWorkersSalary() + calculator.calcWorkersTaxes()
                 ),
                 content: (
@@ -366,7 +369,7 @@ const Calculator = ({
                         },
                         required: "Обязательное поле",
                       }}
-                      helperText={`в том числе налоги ${formatCurrency(
+                      helperText={`в том числе страховые взносы ${formatPriceRange(
                         calculator.calcWorkersTaxes()
                       )}`}
                     />
@@ -377,7 +380,7 @@ const Calculator = ({
                 ? [
                     {
                       header: "Патенты",
-                      count: formatCurrency(calculator.calcPatents()),
+                      count: formatPriceRange(calculator.calcPatents()),
                       content: (
                         <div className="">
                           <ReactSelect
@@ -410,11 +413,11 @@ const Calculator = ({
               },
               {
                 header: "Налоги",
-                count: formatCurrency(
+                count: formatPriceRange(
                   calculator.calcStateDuty() +
                     calculator.calcAvgTransportTaxes() +
                     calculator.calcAvgIncomeTaxes() +
-                    calculator.calcAvgTaxes() +
+                    // calculator.calcAvgTaxes() +
                     calculator.calcAvgOtherTaxes()
                 ),
                 content: (
@@ -428,26 +431,26 @@ const Calculator = ({
                       <div>Средние транспортные налоги по отрасли</div>
                       <div className="border-dotted border-b-2 flex-1"></div>
                       <div>
-                        {formatCurrency(calculator.calcAvgTransportTaxes())}
+                        {formatPriceRange(calculator.calcAvgTransportTaxes())}
                       </div>
                     </div>
                     <div className="flex gap-3 justify-between">
                       <div>Средние подоходные налоги по отрасли</div>
                       <div className="border-dotted border-b-2 flex-1"></div>
                       <div>
-                        {formatCurrency(calculator.calcAvgIncomeTaxes())}
+                        {formatPriceRange(calculator.calcAvgIncomeTaxes())}
                       </div>
                     </div>
-                    <div className="flex gap-3 justify-between">
+                    {/* <div className="flex gap-3 justify-between">
                       <div>Средние налоги по отрасли</div>
                       <div className="border-dotted border-b-2 flex-1"></div>
-                      <div>{formatCurrency(calculator.calcAvgTaxes())}</div>
-                    </div>
+                      <div>{formatPriceRange(calculator.calcAvgTaxes())}</div>
+                    </div> */}
                     <div className="flex gap-3 justify-between">
                       <div>Средние другие налоги по отрасли</div>
                       <div className="border-dotted border-b-2 flex-1"></div>
                       <div>
-                        {formatCurrency(calculator.calcAvgOtherTaxes())}
+                        {formatPriceRange(calculator.calcAvgOtherTaxes())}
                       </div>
                     </div>
                   </div>
@@ -465,8 +468,8 @@ const Calculator = ({
           />
 
           <div className="mt-4 grid justify-items-end">
-            <div className="bg-lime-500 text-white rounded-lg text-right font-semibold text-2xl p-4">
-              {formatCurrency(calculator.calcTotal())}
+            <div className="bg-lime-500 text-white rounded-lg text-right font-semibold text-2xl py-4 px-8">
+              {formatPriceRange(calculator.calcTotal())}
             </div>
           </div>
 
@@ -484,7 +487,7 @@ const Calculator = ({
               <Button
                 className="w-full"
                 variant="fill"
-                disabled={isMutatingUpdate}
+                disabled={isMutatingUpdate || !methods?.formState?.isValid}
               >
                 {isMutatingUpdate ? (
                   <>
@@ -495,7 +498,11 @@ const Calculator = ({
                 )}
               </Button>
             ) : (
-              <Button className="w-full" variant="fill" disabled={isMutating}>
+              <Button
+                className="w-full"
+                variant="fill"
+                disabled={isMutating || !methods?.formState?.isValid}
+              >
                 {isMutating ? (
                   <>
                     <LoadingIcon /> Загрузка...
@@ -516,7 +523,7 @@ const Calculator = ({
                         d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"
                       />
                     </svg>
-                    Расчет
+                    Сохранить
                   </>
                 )}
               </Button>
