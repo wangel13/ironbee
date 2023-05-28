@@ -63,7 +63,7 @@ const BrochureClientLink = ({ html }: { html: any }) => {
             <Button variant="fill" disabled={loading} type="button">
               {loading ? (
                 <>
-                  <LoadingIcon /> Загрузка
+                  <LoadingIcon /> Загрузка...
                 </>
               ) : (
                 <p>Скачать PDF</p>

@@ -42,12 +42,14 @@ export default function RegisterForm() {
         router.push("/login");
       },
       onError: (error) => {
-        toast.error(error.message);
+        toast.error(error?.response?.data?.error);
       },
     }
   );
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => trigger(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await trigger(data).catch((e) => {});
+  };
 
   return (
     <FormProvider {...methods}>
@@ -57,7 +59,7 @@ export default function RegisterForm() {
       >
         <Input
           id="email"
-          label="Email*"
+          label="Email *"
           type="email"
           validation={{
             required: "Обязательное поле",
@@ -70,24 +72,24 @@ export default function RegisterForm() {
         <Input
           id="password"
           type="password"
-          label="Пароль*"
+          label="Пароль *"
           validation={{ required: "Обязательное поле" }}
         />
         <Input
           id="firstName"
-          label="Имя"
+          label="Имя *"
           validation={{ required: "Обязательное поле" }}
         />
         <Input id="patronymic" label="Отчество" />
         <Input
           id="secondName"
-          label="Фамилия"
+          label="Фамилия *"
           validation={{ required: "Обязательное поле" }}
         />
         <Input id="organizationName" label="Название организации" />
         <Input
           id="organizationInn"
-          label="ИНН"
+          label="ИНН *"
           validation={{ required: "Обязательное поле" }}
         />
         {/* <Input id="organizationIndustry" label="Отрасль"/> */}
@@ -99,7 +101,7 @@ export default function RegisterForm() {
           <Button className="w-full" variant="fill" disabled={isMutating}>
             {isMutating ? (
               <>
-                <LoadingIcon /> Загрузка
+                <LoadingIcon /> Загрузка...
               </>
             ) : (
               <p>Зарегистрироваться</p>

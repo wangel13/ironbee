@@ -23,7 +23,10 @@ export async function POST(req: Request) {
     },
   });
   if (exists) {
-    return NextResponse.json({ error: "Пользователь уже есть в системе" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Пользователь с таким email уже есть в системе" },
+      { status: 400 }
+    );
   } else {
     const user = await prisma.user.create({
       data: {

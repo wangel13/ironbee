@@ -201,7 +201,7 @@ const EditNormativesForm = ({ industries }: Props) => {
           <Button className="w-full" variant="fill" disabled={isMutating}>
             {isMutating ? (
               <>
-                <LoadingIcon /> Загрузка
+                <LoadingIcon /> Загрузка...
               </>
             ) : (
               <p>Сохранить</p>

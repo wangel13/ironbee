@@ -47,7 +47,7 @@ export default function AuthForm() {
       >
         <Input
           id="email"
-          label="Email*"
+          label="Email"
           type="email"
           validation={{
             required: "Обязательное поле",
@@ -60,14 +60,14 @@ export default function AuthForm() {
         <Input
           id="password"
           type="password"
-          label="Пароль*"
+          label="Пароль"
           validation={{ required: "Обязательное поле" }}
         />
         <div className="pt-4">
           <Button className="w-full" variant="fill" disabled={loading}>
             {loading ? (
               <>
-                <LoadingIcon /> Загрузка
+                <LoadingIcon /> Загрузка...
               </>
             ) : (
               <p>Войти</p>
@@ -76,12 +76,12 @@ export default function AuthForm() {
         </div>
 
         <p className="text-center text-sm text-gray-600">
-          Еще нет аккаунт?{" "}
+          Еще нет аккаунта?{" "}
           <Link
             href="/register"
             className="font-semibold text-gray-800 underline"
           >
-            Зарегестрироваться
+            Зарегистрироваться
           </Link>
         </p>
       </form>
